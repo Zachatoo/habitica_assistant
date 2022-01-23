@@ -1,4 +1,4 @@
-class Gear {
+class GearModel {
   String? armor;
   String? head;
   String? shield;
@@ -8,7 +8,7 @@ class Gear {
   String? body;
   String? back;
 
-  Gear({
+  GearModel({
     this.armor,
     this.head,
     this.shield,
@@ -32,7 +32,7 @@ class Gear {
     };
   }
 
-  Gear.fromMap(Map<String, dynamic> map) {
+  GearModel.fromMap(Map<String, dynamic> map) {
     armor = map["armor"];
     head = map["head"];
     shield = map["shield"];

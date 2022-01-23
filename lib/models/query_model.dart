@@ -1,9 +1,9 @@
-class Query {
+class QueryModel {
   OrderBy? orderBy;
   int limit;
   int offset;
 
-  Query({this.orderBy, this.limit = 50, this.offset = 0});
+  QueryModel({this.orderBy, this.limit = 50, this.offset = 0});
 }
 
 class OrderBy {

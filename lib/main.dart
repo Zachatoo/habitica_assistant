@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:habitica_assistant/views/home.dart';
+import 'package:habitica_assistant/views/home_view.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

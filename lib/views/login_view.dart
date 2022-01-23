@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:habitica_assistant/models/habitica_auth_data.dart';
+import 'package:habitica_assistant/models/habitica_auth_data_model.dart';
 import 'package:habitica_assistant/services/shared_preferences_service.dart';
 
 class LoginView extends StatefulWidget {
@@ -16,7 +16,7 @@ class _LoginViewState extends State<LoginView> {
 
   final _formKey = GlobalKey<FormState>();
   final _controller = TextEditingController();
-  late HabiticaAuthData _authData;
+  late HabiticaAuthDataModel _authData;
 
   @override
   void initState() {
@@ -24,7 +24,7 @@ class _LoginViewState extends State<LoginView> {
     String? apiToken = widget.apiToken ?? '';
     String? userID = widget.userID ?? '';
     setState(() {
-      _authData = HabiticaAuthData(apiToken: apiToken, userID: userID);
+      _authData = HabiticaAuthDataModel(apiToken: apiToken, userID: userID);
     });
   }
 

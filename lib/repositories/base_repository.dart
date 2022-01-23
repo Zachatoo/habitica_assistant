@@ -1,26 +1,15 @@
-import 'dart:collection';
-
-import 'package:flutter/material.dart';
 import 'package:habitica_assistant/database.dart';
-import 'package:habitica_assistant/models/query.dart';
+import 'package:habitica_assistant/models/base_model.dart';
+import 'package:habitica_assistant/models/query_model.dart';
 import 'package:sqflite/sqflite.dart';
 
 const defaultColumnOrderBy = 'created_at';
 final OrderBy defaultOrderBy = OrderBy(column: defaultColumnOrderBy);
 
-/// Base entity with id and auditing properties.
-abstract class BaseEntity {
-  int? id;
-  DateTime updatedAt = DateTime.now();
-  DateTime createdAt = DateTime.now();
-  bool deleted = false;
-  BaseEntity(this.id, this.updatedAt, this.createdAt, this.deleted);
-}
-
 /// Base provider with basic CRUD operations for database tables.
-abstract class BaseProvider<T extends BaseEntity> extends ChangeNotifier {
-  /// Database client singleton.
-  DatabaseClient databaseClient = DatabaseClient.db;
+abstract class BaseRepository<T extends BaseModel> {
+  /// Database client singleton instance.
+  DatabaseClient databaseClient = DatabaseClient.instance;
 
   /// Name of table to query/modify in database.
   abstract String table;
@@ -28,17 +17,8 @@ abstract class BaseProvider<T extends BaseEntity> extends ChangeNotifier {
   T fromMap(Map<String, dynamic> map);
   Map<String, dynamic> toMap(T entity);
 
-  /// Private list of entities.
-  final List<T> _entities = [];
-
-  /// List of entities accessible to other classes.
-  UnmodifiableListView<T> get entities => UnmodifiableListView(_entities);
-
-  /// Number of entities in table.
-  int get entityCount => _entities.length;
-
   /// Retrieves all entities from table that aren't deleted.
-  /// Notifies ChangeNotifyProviders of changes.
+  /// Supports ordering.
   Future<List<T>> getAll({OrderBy? orderBy}) async {
     orderBy ??= defaultOrderBy;
     final Database db = await databaseClient.database;
@@ -48,9 +28,6 @@ abstract class BaseProvider<T extends BaseEntity> extends ChangeNotifier {
       orderBy: orderBy.toString(),
     );
     final results = List.generate(maps.length, (i) => fromMap(maps[i]));
-    _entities.clear();
-    _entities.addAll(results);
-    notifyListeners();
     return results;
   }
 
@@ -69,7 +46,6 @@ abstract class BaseProvider<T extends BaseEntity> extends ChangeNotifier {
   }
 
   /// Inserts a new entity into the table.
-  /// Notifies ChangeNotifyProviders of changes.
   /// Returns the inserted entity.
   Future<T> insert(T entity) async {
     final Database db = await databaseClient.database;
@@ -78,12 +54,12 @@ abstract class BaseProvider<T extends BaseEntity> extends ChangeNotifier {
       toMap(entity),
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
-    _entities.add(entity);
-    notifyListeners();
     return entity;
   }
 
-  Future<T> _update(T entity) async {
+  /// Updates the entity in the database.
+  /// Returns the updated entity.
+  Future<T> update(T entity) async {
     final Database db = await databaseClient.database;
     entity.updatedAt = DateTime.now();
     await db.update(
@@ -95,20 +71,7 @@ abstract class BaseProvider<T extends BaseEntity> extends ChangeNotifier {
     return entity;
   }
 
-  /// Updates the entity in the database.
-  /// Notifies ChangeNotifyProviders of changes.
-  /// Returns the updated entity.
-  Future<T> update(T entity) async {
-    final updatedEntity = await _update(entity);
-    final index = _entities.indexWhere((e) => e.id == updatedEntity.id);
-    if (index == -1) {}
-    _entities[index] = updatedEntity;
-    notifyListeners();
-    return updatedEntity;
-  }
-
   /// Marks the entity as deleted by id in the database.
-  /// Notifies ChangeNotifyProviders of changes.
   /// Returns the deleted entity.
   Future<T?> delete(int id) async {
     final T? entity = await getSingle(id);
@@ -116,9 +79,7 @@ abstract class BaseProvider<T extends BaseEntity> extends ChangeNotifier {
       throw Exception('Entity with id $id not found');
     }
     entity.deleted = true;
-    final deletedEntity = await _update(entity);
-    _entities.removeWhere((element) => element.id == id);
-    notifyListeners();
+    final deletedEntity = await update(entity);
     return deletedEntity;
   }
 }

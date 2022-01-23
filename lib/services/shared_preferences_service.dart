@@ -1,4 +1,4 @@
-import 'package:habitica_assistant/models/habitica_auth_data.dart';
+import 'package:habitica_assistant/models/habitica_auth_data_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPreferencesService {
@@ -25,14 +25,14 @@ class SharedPreferencesService {
     return prefs.setString(_kUserID, value);
   }
 
-  Future<HabiticaAuthData> getAuthData() async {
+  Future<HabiticaAuthDataModel> getAuthData() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final apiToken = prefs.getString(_kApiToken);
     final userID = prefs.getString(_kUserID);
-    return HabiticaAuthData(apiToken: apiToken!, userID: userID!);
+    return HabiticaAuthDataModel(apiToken: apiToken!, userID: userID!);
   }
 
-  Future<bool> setAuthData(HabiticaAuthData authData) async {
+  Future<bool> setAuthData(HabiticaAuthDataModel authData) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString(_kApiToken, authData.apiToken);
     return prefs.setString(_kUserID, authData.userID);

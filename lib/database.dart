@@ -3,16 +3,13 @@ import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
 class DatabaseClient {
-  DatabaseClient._();
-  static final DatabaseClient db = DatabaseClient._();
-
+  static final DatabaseClient instance = DatabaseClient._internal();
   Database? _database;
 
+  DatabaseClient._internal();
+
   Future<Database> get database async {
-    if (_database != null) {
-      return _database as Database;
-    }
-    _database = await _initDB();
+    _database ??= await _initDB();
     return _database as Database;
   }
 

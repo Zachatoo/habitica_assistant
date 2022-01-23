@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:habitica_assistant/models/battle_gear.dart';
+import 'package:habitica_assistant/models/battle_gear_model.dart';
 import 'package:habitica_assistant/providers/battle_gear_provider.dart';
 import 'package:habitica_assistant/services/habitica_service.dart';
 
@@ -11,7 +11,7 @@ class BattleGearView extends StatefulWidget {
 }
 
 class _BattleGearViewState extends State<BattleGearView> {
-  List<BattleGear> _gearList = [];
+  List<BattleGearModel> _gearList = [];
   final BattleGearProvider _battleGearProvider = BattleGearProvider();
 
   @override
@@ -31,7 +31,7 @@ class _BattleGearViewState extends State<BattleGearView> {
     final service = HabiticaService();
     try {
       final gear = await service.getEquippedBattleGear();
-      final battleGear = BattleGear.fromGear(name: '123', gear: gear);
+      final battleGear = BattleGearModel.fromGear(name: '123', gear: gear);
       await _battleGearProvider.insert(battleGear);
       final newBattleGearList = _battleGearProvider.entities;
       setState(() {
@@ -43,7 +43,7 @@ class _BattleGearViewState extends State<BattleGearView> {
   }
 
   void _removeBattleGear(int gearID, BuildContext context) async {
-    final BattleGear? copyOfBattleGear = await _battleGearProvider.getSingle(gearID);
+    final BattleGearModel? copyOfBattleGear = await _battleGearProvider.getSingle(gearID);
     if (copyOfBattleGear == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(

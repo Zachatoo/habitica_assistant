@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:habitica_assistant/services/shared_preferences_service.dart';
-import 'package:habitica_assistant/views/battle_gear.dart';
-import 'package:habitica_assistant/views/login.dart';
+import 'package:habitica_assistant/views/battle_gear_view.dart';
+import 'package:habitica_assistant/views/login_view.dart';
 
 class HomeView extends StatelessWidget {
   final SharedPreferencesService _sharedPreferencesService = SharedPreferencesService();
@@ -21,7 +21,7 @@ class HomeView extends StatelessWidget {
       future: _initSharedPreferences(),
       builder: (BuildContext context, AsyncSnapshot<List<String?>> snapshot) {
         if (!snapshot.hasData) {
-          return const Icon(Icons.change_circle_outlined);
+          return const CircularProgressIndicator();
         }
         if (snapshot.data![0] != null && snapshot.data![1] != null) {
           return const BattleGearView();
