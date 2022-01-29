@@ -34,9 +34,11 @@ class _AddEditBattleGearViewState extends State<AddEditBattleGearView> {
       }
       return _gear;
     } catch (ex) {
-      if (ex == 'TooManyRequests') {
-        print(ex);
-      }
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(ex.toString()),
+        ),
+      );
     }
   }
 

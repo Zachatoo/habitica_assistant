@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:habitica_assistant/models/battle_gear_model.dart';
 import 'package:habitica_assistant/providers/battle_gear_provider.dart';
+import 'package:habitica_assistant/services/habitica_service.dart';
 import 'package:provider/provider.dart';
 
 class BattleGearView extends StatefulWidget {
@@ -11,8 +12,27 @@ class BattleGearView extends StatefulWidget {
 }
 
 class _BattleGearViewState extends State<BattleGearView> {
+  final HabiticaService _habiticaService = HabiticaService();
+
   void _addBattleGear(context) async {
     Navigator.pushNamed(context, '/addBattleGear');
+  }
+
+  void _setEquippedBattleGear(BattleGearModel gear, BuildContext context) async {
+    try {
+      await _habiticaService.setEquippedBattleGear(gear);
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Successfully updated battle gear'),
+        ),
+      );
+    } catch (ex) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(ex.toString()),
+        ),
+      );
+    }
   }
 
   void _removeBattleGear(int gearID, BuildContext context, BattleGearProvider provider) async {
@@ -60,7 +80,7 @@ class _BattleGearViewState extends State<BattleGearView> {
                 return Card(
                   color: Theme.of(context).highlightColor,
                   child: InkWell(
-                    onTap: () => {},
+                    onTap: () => _setEquippedBattleGear(e, context),
                     child: Column(
                       children: [
                         Row(

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:habitica_assistant/models/battle_gear_model.dart';
 import 'package:habitica_assistant/models/gear_model.dart';
 import 'package:habitica_assistant/models/parsed_response_model.dart';
 import 'package:habitica_assistant/services/shared_preferences_service.dart';
@@ -28,6 +29,48 @@ class HabiticaService {
     final GearModel equippedGear =
         GearModel.fromMap(responseJson["data"]["items"]["gear"]["equipped"]);
     return equippedGear;
+  }
+
+  Future<void> setEquippedBattleGear(BattleGearModel gear) async {
+    const String type = 'equipped';
+    final equippedGear = await getEquippedBattleGear();
+    if (equippedGear.armor != gear.armor) {
+      _equipItem(type, gear.armor ?? '');
+    }
+    if (equippedGear.head != gear.head) {
+      _equipItem(type, gear.head ?? '');
+    }
+    if (equippedGear.shield != gear.shield) {
+      _equipItem(type, gear.shield ?? '');
+    }
+    if (equippedGear.weapon != gear.weapon) {
+      _equipItem(type, gear.weapon ?? '');
+    }
+    if (equippedGear.eyewear != gear.eyewear) {
+      _equipItem(type, gear.eyewear ?? '');
+    }
+    if (equippedGear.headAccessory != gear.headAccessory) {
+      _equipItem(type, gear.headAccessory ?? '');
+    }
+    if (equippedGear.body != gear.body) {
+      _equipItem(type, gear.body ?? '');
+    }
+    if (equippedGear.back != gear.back) {
+      _equipItem(type, gear.back ?? '');
+    }
+  }
+
+  Future<void> _equipItem(String type, String key) async {
+    Uri url = Uri.parse('$baseUrl/user/equip/$type/$key');
+    final response = ParsedResponseModel<String>.fromResponse(
+        await http.post(url, headers: await _getHeaders()));
+    final responseJson = jsonDecode(response.body);
+    if (!response.isOk()) {
+      if (response.isUnauthorized()) {
+        throw Exception('Unauthorized');
+      }
+      throw Exception(responseJson["error"]);
+    }
   }
 
   Future<Map<String, String>> _getHeaders() async {
