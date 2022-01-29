@@ -22,6 +22,10 @@ class BattleGearProvider extends ChangeNotifier {
   /// Number of entities in table.
   int get entityCount => _entities.length;
 
+  BattleGearProvider() {
+    getAll();
+  }
+
   /// Retrieves all entities from table that aren't deleted.
   /// Notifies ChangeNotifyProviders of changes.
   Future<List<BattleGearModel>> getAll({OrderBy? orderBy}) async {

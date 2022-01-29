@@ -3,9 +3,7 @@ import 'package:habitica_assistant/models/habitica_auth_data_model.dart';
 import 'package:habitica_assistant/services/shared_preferences_service.dart';
 
 class LoginView extends StatefulWidget {
-  String? apiToken;
-  String? userID;
-  LoginView({Key? key, this.apiToken, this.userID}) : super(key: key);
+  const LoginView({Key? key}) : super(key: key);
 
   @override
   _LoginViewState createState() => _LoginViewState();
@@ -15,23 +13,14 @@ class _LoginViewState extends State<LoginView> {
   final SharedPreferencesService _sharedPreferencesService = SharedPreferencesService();
 
   final _formKey = GlobalKey<FormState>();
-  final _controller = TextEditingController();
   late HabiticaAuthDataModel _authData;
 
   @override
   void initState() {
     super.initState();
-    String? apiToken = widget.apiToken ?? '';
-    String? userID = widget.userID ?? '';
     setState(() {
-      _authData = HabiticaAuthDataModel(apiToken: apiToken, userID: userID);
+      _authData = HabiticaAuthDataModel(apiToken: '', userID: '');
     });
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
   }
 
   String? _validateID(String? value) {

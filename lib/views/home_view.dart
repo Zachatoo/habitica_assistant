@@ -26,10 +26,7 @@ class HomeView extends StatelessWidget {
         if (snapshot.data![0] != null && snapshot.data![1] != null) {
           return const BattleGearView();
         }
-        return LoginView(
-          apiToken: snapshot.data![0],
-          userID: snapshot.data![1],
-        );
+        return const LoginView();
       },
     );
   }

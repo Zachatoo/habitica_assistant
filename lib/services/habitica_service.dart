@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:habitica_assistant/models/gear_model.dart';
+import 'package:habitica_assistant/models/parsed_response_model.dart';
 import 'package:habitica_assistant/services/shared_preferences_service.dart';
 import 'package:http/http.dart' as http;
 
@@ -15,11 +16,15 @@ class HabiticaService {
 
   Future<GearModel> getEquippedBattleGear() async {
     Uri url = Uri.parse('$baseUrl/user');
-    final response = await http.get(url, headers: await _getHeaders());
-    if (response.statusCode == 401) {
-      throw Exception('Unauthorized');
-    }
+    final response =
+        ParsedResponseModel<String>.fromResponse(await http.get(url, headers: await _getHeaders()));
     final responseJson = jsonDecode(response.body);
+    if (!response.isOk()) {
+      if (response.isUnauthorized()) {
+        throw Exception('Unauthorized');
+      }
+      throw Exception(responseJson["error"]);
+    }
     final GearModel equippedGear =
         GearModel.fromMap(responseJson["data"]["items"]["gear"]["equipped"]);
     return equippedGear;
