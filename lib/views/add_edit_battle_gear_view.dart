@@ -17,6 +17,7 @@ class _AddEditBattleGearViewState extends State<AddEditBattleGearView> {
   final _formKey = GlobalKey<FormState>();
   late Future<BattleGearModel?> _gearFuture;
   late BattleGearModel _gear;
+  late Iterable<String> _gearList;
 
   @override
   void initState() {
@@ -26,10 +27,13 @@ class _AddEditBattleGearViewState extends State<AddEditBattleGearView> {
 
   Future<BattleGearModel?> _initBattleGear() async {
     try {
-      final gear = await _habiticaService.getEquippedBattleGear();
+      final userProfile = await _habiticaService.getAuthenticatedUserProfile();
+      final equippedGear = userProfile.items.gear.equipped;
+      final gearList = userProfile.items.gear.owned;
       if (mounted) {
         setState(() {
-          _gear = BattleGearModel.fromGear(name: '', gear: gear);
+          _gear = BattleGearModel.fromGear(name: '', gear: equippedGear);
+          _gearList = gearList;
         });
       }
       return _gear;
@@ -97,13 +101,21 @@ class _AddEditBattleGearViewState extends State<AddEditBattleGearView> {
             }),
             autofocus: true,
           ),
-          TextFormField(
-            initialValue: _gear.armor,
+          DropdownButtonFormField(
+            value: _gear.armor,
             validator: _validateGearField,
             decoration: const InputDecoration(labelText: 'Armor'),
-            onChanged: (value) => setState(() {
+            onChanged: (String? value) => setState(() {
               _gear.armor = value;
             }),
+            items: _gearList
+                .map(
+                  (e) => DropdownMenuItem(
+                    child: Text(e),
+                    value: e,
+                  ),
+                )
+                .toList(),
           ),
           TextFormField(
             initialValue: _gear.head,

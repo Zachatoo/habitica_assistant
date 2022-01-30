@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:habitica_assistant/models/battle_gear_model.dart';
 import 'package:habitica_assistant/models/gear_model.dart';
+import 'package:habitica_assistant/models/habitica_user_profile_model.dart';
 import 'package:habitica_assistant/models/parsed_response_model.dart';
 import 'package:habitica_assistant/services/shared_preferences_service.dart';
 import 'package:http/http.dart' as http;
@@ -15,7 +16,7 @@ class HabiticaService {
 
   HabiticaService();
 
-  Future<GearModel> getEquippedBattleGear() async {
+  Future<HabiticaUserProfileModel> getAuthenticatedUserProfile() async {
     Uri url = Uri.parse('$baseUrl/user');
     final response =
         ParsedResponseModel<String>.fromResponse(await http.get(url, headers: await _getHeaders()));
@@ -26,8 +27,13 @@ class HabiticaService {
       }
       throw Exception(responseJson["error"]);
     }
-    final GearModel equippedGear =
-        GearModel.fromMap(responseJson["data"]["items"]["gear"]["equipped"]);
+    final HabiticaUserProfileModel profile = HabiticaUserProfileModel.fromMap(responseJson["data"]);
+    return profile;
+  }
+
+  Future<GearModel> getEquippedBattleGear() async {
+    final response = await getAuthenticatedUserProfile();
+    final GearModel equippedGear = response.items.gear.equipped;
     return equippedGear;
   }
 
@@ -35,28 +41,28 @@ class HabiticaService {
     const String type = 'equipped';
     final equippedGear = await getEquippedBattleGear();
     if (equippedGear.armor != gear.armor) {
-      _equipItem(type, gear.armor ?? '');
+      await _equipItem(type, gear.armor ?? '');
     }
     if (equippedGear.head != gear.head) {
-      _equipItem(type, gear.head ?? '');
+      await _equipItem(type, gear.head ?? '');
     }
     if (equippedGear.shield != gear.shield) {
-      _equipItem(type, gear.shield ?? '');
+      await _equipItem(type, gear.shield ?? '');
     }
     if (equippedGear.weapon != gear.weapon) {
-      _equipItem(type, gear.weapon ?? '');
+      await _equipItem(type, gear.weapon ?? '');
     }
     if (equippedGear.eyewear != gear.eyewear) {
-      _equipItem(type, gear.eyewear ?? '');
+      await _equipItem(type, gear.eyewear ?? '');
     }
     if (equippedGear.headAccessory != gear.headAccessory) {
-      _equipItem(type, gear.headAccessory ?? '');
+      await _equipItem(type, gear.headAccessory ?? '');
     }
     if (equippedGear.body != gear.body) {
-      _equipItem(type, gear.body ?? '');
+      await _equipItem(type, gear.body ?? '');
     }
     if (equippedGear.back != gear.back) {
-      _equipItem(type, gear.back ?? '');
+      await _equipItem(type, gear.back ?? '');
     }
   }
 
