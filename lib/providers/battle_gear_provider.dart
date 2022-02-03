@@ -58,10 +58,9 @@ class BattleGearProvider extends ChangeNotifier {
   Future<BattleGearModel> update(BattleGearModel entity) async {
     final BattleGearModel updatedEntity = await _repository.update(entity);
     final index = _entities.indexWhere((e) => e.id == updatedEntity.id);
-    if (index == -1) {
-      throw Exception('Entity not found: $entity');
+    if (index != -1) {
+      _entities[index] = updatedEntity;
     }
-    _entities[index] = updatedEntity;
     notifyListeners();
     return updatedEntity;
   }

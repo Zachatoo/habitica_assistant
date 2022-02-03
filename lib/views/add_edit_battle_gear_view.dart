@@ -5,7 +5,8 @@ import 'package:habitica_assistant/services/habitica_service.dart';
 import 'package:provider/provider.dart';
 
 class AddEditBattleGearView extends StatefulWidget {
-  const AddEditBattleGearView({Key? key}) : super(key: key);
+  final BattleGearModel? model;
+  const AddEditBattleGearView({Key? key, this.model}) : super(key: key);
 
   @override
   _AddEditBattleGearViewState createState() => _AddEditBattleGearViewState();
@@ -31,10 +32,17 @@ class _AddEditBattleGearViewState extends State<AddEditBattleGearView> {
       final equippedGear = userProfile.items.gear.equipped;
       final gearList = userProfile.items.gear.owned;
       if (mounted) {
-        setState(() {
-          _gear = BattleGearModel.fromGear(name: '', gear: equippedGear);
-          _gearList = gearList;
-        });
+        if (widget.model is BattleGearModel) {
+          setState(() {
+            _gear = widget.model as BattleGearModel;
+            _gearList = gearList;
+          });
+        } else {
+          setState(() {
+            _gear = BattleGearModel.fromGear(name: '', gear: equippedGear);
+            _gearList = gearList;
+          });
+        }
       }
       return _gear;
     } catch (ex) {
@@ -59,7 +67,11 @@ class _AddEditBattleGearViewState extends State<AddEditBattleGearView> {
 
   void _handleSubmit() async {
     if (_formKey.currentState!.validate()) {
-      await Provider.of<BattleGearProvider>(context, listen: false).insert(_gear);
+      if (_gear.id != null) {
+        await Provider.of<BattleGearProvider>(context, listen: false).update(_gear);
+      } else {
+        await Provider.of<BattleGearProvider>(context, listen: false).insert(_gear);
+      }
       Navigator.of(context).pop();
     }
   }
@@ -99,7 +111,6 @@ class _AddEditBattleGearViewState extends State<AddEditBattleGearView> {
             onChanged: (value) => setState(() {
               _gear.name = value;
             }),
-            autofocus: true,
           ),
           DropdownButtonFormField(
             value: _gear.armor,

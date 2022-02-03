@@ -51,12 +51,30 @@ class _BattleGearViewState extends State<BattleGearView> {
             onPressed: () async {
               copyOfBattleGear.deleted = false;
               await provider.update(copyOfBattleGear);
+              await provider.getAll();
             },
           ),
           content: const Text('Outfit removed'),
         ),
       );
       await provider.delete(gearID);
+    }
+  }
+
+  void _handleSelect(
+    int option,
+    BattleGearModel gear,
+    BuildContext context,
+    BattleGearProvider provider,
+  ) {
+    switch (option) {
+      case 1:
+        Navigator.pushNamed(context, '/editBattleGear', arguments: gear);
+        break;
+      case 2:
+        _removeBattleGear(gear.id as int, context, provider);
+        break;
+      default:
     }
   }
 
@@ -86,10 +104,20 @@ class _BattleGearViewState extends State<BattleGearView> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            IconButton(
-                              icon: const Icon(Icons.delete_outline),
-                              onPressed: () => _removeBattleGear(e.id as int, context, provider),
-                              tooltip: "Remove",
+                            PopupMenuButton(
+                              itemBuilder: (context) => [
+                                const PopupMenuItem(
+                                  child: Text("Edit"),
+                                  value: 1,
+                                ),
+                                const PopupMenuItem(
+                                  child: Text("Delete"),
+                                  value: 2,
+                                )
+                              ],
+                              onSelected: (option) =>
+                                  _handleSelect(option as int, e, context, provider),
+                              icon: const Icon(Icons.more_vert),
                             ),
                           ],
                         ),
