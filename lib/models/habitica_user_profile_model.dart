@@ -1,4 +1,5 @@
 import 'package:habitica_assistant/models/gear_model.dart';
+import 'package:habitica_assistant/utils/habitica_base_gear.dart';
 
 class HabiticaUserProfileModel {
   // Map<String, dynamic> auth;
@@ -31,7 +32,9 @@ class _HabiticaUserProfileGearModel {
     costume = GearModel.fromMap(map["costume"] ?? {});
     final allOwned = Map<String, bool>.from(map["owned"]);
     allOwned.removeWhere((key, value) => value == false);
-    owned = allOwned.keys;
+    final allOwnedKeys = allOwned.keys.toSet().toList();
+    allOwnedKeys.addAll(baseGear);
+    owned = allOwnedKeys;
   }
 }
 

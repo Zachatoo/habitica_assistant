@@ -78,9 +78,10 @@ class _AddEditBattleGearViewState extends State<AddEditBattleGearView> {
 
   @override
   Widget build(BuildContext context) {
+    final String headerAction = widget.model is BattleGearModel ? "Edit" : "Add";
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Add Battle Gear"),
+        title: Text("$headerAction Battle Gear"),
         backgroundColor: Theme.of(context).primaryColor,
       ),
       body: FutureBuilder(
@@ -120,6 +121,7 @@ class _AddEditBattleGearViewState extends State<AddEditBattleGearView> {
               _gear.armor = value;
             }),
             items: _gearList
+                .where((element) => element.startsWith('armor'))
                 .map(
                   (e) => DropdownMenuItem(
                     child: Text(e),
@@ -128,61 +130,124 @@ class _AddEditBattleGearViewState extends State<AddEditBattleGearView> {
                 )
                 .toList(),
           ),
-          TextFormField(
-            initialValue: _gear.head,
+          DropdownButtonFormField(
+            value: _gear.head,
             validator: _validateGearField,
             decoration: const InputDecoration(labelText: 'Head'),
-            onChanged: (value) => setState(() {
+            onChanged: (String? value) => setState(() {
               _gear.head = value;
             }),
+            items: _gearList
+                .where((element) => element.startsWith('head_'))
+                .map(
+                  (e) => DropdownMenuItem(
+                    child: Text(e),
+                    value: e,
+                  ),
+                )
+                .toList(),
           ),
-          TextFormField(
-            initialValue: _gear.shield,
+          DropdownButtonFormField(
+            value: _gear.shield,
             validator: _validateGearField,
             decoration: const InputDecoration(labelText: 'Shield'),
-            onChanged: (value) => setState(() {
+            onChanged: (String? value) => setState(() {
               _gear.shield = value;
             }),
+            items: _gearList
+                .where((element) => element.startsWith('shield'))
+                .map(
+                  (e) => DropdownMenuItem(
+                    child: Text(e),
+                    value: e,
+                  ),
+                )
+                .toList(),
           ),
-          TextFormField(
-            initialValue: _gear.weapon,
+          DropdownButtonFormField(
+            value: _gear.weapon,
             validator: _validateGearField,
             decoration: const InputDecoration(labelText: 'Weapon'),
-            onChanged: (value) => setState(() {
+            onChanged: (String? value) => setState(() {
               _gear.weapon = value;
             }),
+            items: _gearList
+                .where((element) => element.startsWith('weapon'))
+                .map(
+                  (e) => DropdownMenuItem(
+                    child: Text(e),
+                    value: e,
+                  ),
+                )
+                .toList(),
           ),
-          TextFormField(
-            initialValue: _gear.eyewear,
+          DropdownButtonFormField(
+            value: _gear.eyewear,
             validator: _validateGearField,
             decoration: const InputDecoration(labelText: 'Eyewear'),
-            onChanged: (value) => setState(() {
+            onChanged: (String? value) => setState(() {
               _gear.eyewear = value;
             }),
+            items: _gearList
+                .where((element) => element.startsWith('eyewear'))
+                .map(
+                  (e) => DropdownMenuItem(
+                    child: Text(e),
+                    value: e,
+                  ),
+                )
+                .toList(),
           ),
-          TextFormField(
-            initialValue: _gear.headAccessory,
+          DropdownButtonFormField(
+            value: _gear.headAccessory,
             validator: _validateGearField,
             decoration: const InputDecoration(labelText: 'Head Accessory'),
-            onChanged: (value) => setState(() {
+            onChanged: (String? value) => setState(() {
               _gear.headAccessory = value;
             }),
+            items: _gearList
+                .where((element) => element.startsWith('headAccessory'))
+                .map(
+                  (e) => DropdownMenuItem(
+                    child: Text(e),
+                    value: e,
+                  ),
+                )
+                .toList(),
           ),
-          TextFormField(
-            initialValue: _gear.body,
+          DropdownButtonFormField(
+            value: _gear.body,
             validator: _validateGearField,
             decoration: const InputDecoration(labelText: 'Body'),
-            onChanged: (value) => setState(() {
+            onChanged: (String? value) => setState(() {
               _gear.body = value;
             }),
+            items: _gearList
+                .where((element) => element.startsWith('body'))
+                .map(
+                  (e) => DropdownMenuItem(
+                    child: Text(e),
+                    value: e,
+                  ),
+                )
+                .toList(),
           ),
-          TextFormField(
-            initialValue: _gear.back,
+          DropdownButtonFormField(
+            value: _gear.back,
             validator: _validateGearField,
             decoration: const InputDecoration(labelText: 'Back'),
-            onChanged: (value) => setState(() {
+            onChanged: (String? value) => setState(() {
               _gear.back = value;
             }),
+            items: _gearList
+                .where((element) => element.startsWith('back'))
+                .map(
+                  (e) => DropdownMenuItem(
+                    child: Text(e),
+                    value: e,
+                  ),
+                )
+                .toList(),
           ),
           ElevatedButton(
             // style: ButtonStyle(
