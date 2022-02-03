@@ -61,10 +61,6 @@ class _AddEditBattleGearViewState extends State<AddEditBattleGearView> {
     return null;
   }
 
-  String? _validateGearField(String? value) {
-    return null;
-  }
-
   void _handleSubmit() async {
     if (_formKey.currentState!.validate()) {
       if (_gear.id != null) {
@@ -115,7 +111,6 @@ class _AddEditBattleGearViewState extends State<AddEditBattleGearView> {
           ),
           DropdownButtonFormField(
             value: _gear.armor,
-            validator: _validateGearField,
             decoration: const InputDecoration(labelText: 'Armor'),
             onChanged: (String? value) => setState(() {
               _gear.armor = value;
@@ -132,7 +127,6 @@ class _AddEditBattleGearViewState extends State<AddEditBattleGearView> {
           ),
           DropdownButtonFormField(
             value: _gear.head,
-            validator: _validateGearField,
             decoration: const InputDecoration(labelText: 'Head'),
             onChanged: (String? value) => setState(() {
               _gear.head = value;
@@ -149,7 +143,6 @@ class _AddEditBattleGearViewState extends State<AddEditBattleGearView> {
           ),
           DropdownButtonFormField(
             value: _gear.shield,
-            validator: _validateGearField,
             decoration: const InputDecoration(labelText: 'Shield'),
             onChanged: (String? value) => setState(() {
               _gear.shield = value;
@@ -166,7 +159,6 @@ class _AddEditBattleGearViewState extends State<AddEditBattleGearView> {
           ),
           DropdownButtonFormField(
             value: _gear.weapon,
-            validator: _validateGearField,
             decoration: const InputDecoration(labelText: 'Weapon'),
             onChanged: (String? value) => setState(() {
               _gear.weapon = value;
@@ -183,7 +175,6 @@ class _AddEditBattleGearViewState extends State<AddEditBattleGearView> {
           ),
           DropdownButtonFormField(
             value: _gear.eyewear,
-            validator: _validateGearField,
             decoration: const InputDecoration(labelText: 'Eyewear'),
             onChanged: (String? value) => setState(() {
               _gear.eyewear = value;
@@ -200,7 +191,6 @@ class _AddEditBattleGearViewState extends State<AddEditBattleGearView> {
           ),
           DropdownButtonFormField(
             value: _gear.headAccessory,
-            validator: _validateGearField,
             decoration: const InputDecoration(labelText: 'Head Accessory'),
             onChanged: (String? value) => setState(() {
               _gear.headAccessory = value;
@@ -217,7 +207,6 @@ class _AddEditBattleGearViewState extends State<AddEditBattleGearView> {
           ),
           DropdownButtonFormField(
             value: _gear.body,
-            validator: _validateGearField,
             decoration: const InputDecoration(labelText: 'Body'),
             onChanged: (String? value) => setState(() {
               _gear.body = value;
@@ -234,7 +223,6 @@ class _AddEditBattleGearViewState extends State<AddEditBattleGearView> {
           ),
           DropdownButtonFormField(
             value: _gear.back,
-            validator: _validateGearField,
             decoration: const InputDecoration(labelText: 'Back'),
             onChanged: (String? value) => setState(() {
               _gear.back = value;
