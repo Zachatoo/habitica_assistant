@@ -23,6 +23,14 @@ class MyApp extends StatelessWidget {
           primaryColor: const Color(0xFF34B5C1), // teal 50
           // primaryColor: const Color(0xFF613384), // purple
           highlightColor: const Color(0xFF3BCAD7), // teal 100
+          snackBarTheme: SnackBarThemeData(
+            behavior: SnackBarBehavior.floating,
+            actionTextColor: const Color(0xFF3BCAD7),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20.0),
+            ),
+            elevation: 3.0,
+          ),
         ),
         home: HomeView(),
         onGenerateRoute: _getRoute,

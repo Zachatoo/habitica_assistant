@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:habitica_assistant/components/snack_bar.dart';
 import 'package:habitica_assistant/models/battle_gear_model.dart';
 import 'package:habitica_assistant/providers/battle_gear_provider.dart';
 import 'package:habitica_assistant/services/habitica_service.dart';
@@ -21,41 +22,33 @@ class _BattleGearViewState extends State<BattleGearView> {
   void _setEquippedBattleGear(BattleGearModel gear, BuildContext context) async {
     try {
       await _habiticaService.setEquippedBattleGear(gear);
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Successfully updated battle gear'),
-        ),
+      buildSnackBar(
+        context: context,
+        content: 'Successfully updated battle gear',
+        duration: snackBarDuration.short,
       );
     } catch (ex) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(ex.toString()),
-        ),
-      );
+      buildSnackBar(context: context, content: ex.toString());
     }
   }
 
   void _removeBattleGear(int gearID, BuildContext context, BattleGearProvider provider) async {
     final BattleGearModel? copyOfBattleGear = await provider.getSingle(gearID);
     if (copyOfBattleGear == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Unable to remove outfit'),
-        ),
-      );
+      buildSnackBar(context: context, content: 'Unable to remove outfit');
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          action: SnackBarAction(
-            label: 'Undo',
-            onPressed: () async {
-              copyOfBattleGear.deleted = false;
-              await provider.update(copyOfBattleGear);
-              await provider.getAll();
-            },
-          ),
-          content: const Text('Outfit removed'),
+      buildSnackBar(
+        context: context,
+        content: 'Outfit removed',
+        action: SnackBarAction(
+          label: 'Undo',
+          onPressed: () async {
+            copyOfBattleGear.deleted = false;
+            await provider.update(copyOfBattleGear);
+            await provider.getAll();
+          },
         ),
+        duration: snackBarDuration.long,
       );
       await provider.delete(gearID);
     }
