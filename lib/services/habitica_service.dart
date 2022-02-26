@@ -12,7 +12,7 @@ import 'package:http/http.dart' as http;
 class HabiticaService {
   final SharedPreferencesService _sharedPreferencesService = SharedPreferencesService();
   static const String baseUrl = 'https://habitica.com/api/v3';
-  static const String client = 'testing';
+  static const String client = '67d1d9e3-57cc-4d7c-ab00-b09b63780a78-HabiticaAssistant';
   String? _apiToken;
   String? _userID;
 
