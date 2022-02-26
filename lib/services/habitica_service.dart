@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:habitica_assistant/models/battle_gear_model.dart';
+import 'package:habitica_assistant/models/costume_model.dart';
 import 'package:habitica_assistant/models/gear_model.dart';
 import 'package:habitica_assistant/models/habitica_user_profile_model.dart';
 import 'package:habitica_assistant/models/parsed_response_model.dart';
@@ -41,6 +42,41 @@ class HabiticaService {
   Future<void> setEquippedBattleGear(BattleGearModel gear) async {
     const String type = 'equipped';
     final equippedGear = await getEquippedBattleGear();
+    if (equippedGear.armor != gear.armor) {
+      await _equipItem(type, gear.armor, equippedGear.armor);
+    }
+    if (equippedGear.head != gear.head) {
+      await _equipItem(type, gear.head, equippedGear.head);
+    }
+    if (equippedGear.shield != gear.shield) {
+      await _equipItem(type, gear.shield, equippedGear.shield);
+    }
+    if (equippedGear.weapon != gear.weapon) {
+      await _equipItem(type, gear.weapon, equippedGear.weapon);
+    }
+    if (equippedGear.eyewear != gear.eyewear) {
+      await _equipItem(type, gear.eyewear, equippedGear.eyewear);
+    }
+    if (equippedGear.headAccessory != gear.headAccessory) {
+      await _equipItem(type, gear.headAccessory, equippedGear.headAccessory);
+    }
+    if (equippedGear.body != gear.body) {
+      await _equipItem(type, gear.body, equippedGear.body);
+    }
+    if (equippedGear.back != gear.back) {
+      await _equipItem(type, gear.back, equippedGear.back);
+    }
+  }
+
+  Future<GearModel> getEquippedCostume() async {
+    final response = await getAuthenticatedUserProfile();
+    final GearModel equippedCostume = response.items.gear.costume;
+    return equippedCostume;
+  }
+
+  Future<void> setEquippedCostume(CostumeModel gear) async {
+    const String type = 'costume';
+    final equippedGear = await getEquippedCostume();
     if (equippedGear.armor != gear.armor) {
       await _equipItem(type, gear.armor, equippedGear.armor);
     }

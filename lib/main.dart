@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:habitica_assistant/models/battle_gear_model.dart';
 import 'package:habitica_assistant/providers/battle_gear_provider.dart';
+import 'package:habitica_assistant/providers/costume_provider.dart';
 import 'package:habitica_assistant/views/add_edit_battle_gear_view.dart';
+import 'package:habitica_assistant/views/add_edit_costume_view.dart';
 import 'package:habitica_assistant/views/home_view.dart';
 import 'package:provider/provider.dart';
+
+import 'models/costume_model.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -15,8 +19,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => BattleGearProvider(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<BattleGearProvider>(create: (_) => BattleGearProvider()),
+        ChangeNotifierProvider<CostumeProvider>(create: (_) => CostumeProvider()),
+      ],
       child: MaterialApp(
         title: 'Habitica Assistant',
         theme: ThemeData(
@@ -35,7 +42,8 @@ class MyApp extends StatelessWidget {
         home: HomeView(),
         onGenerateRoute: _getRoute,
         routes: {
-          '/addBattleGear': (context) => const AddEditBattleGearView(),
+          '/addBattleGear': (_) => const AddEditBattleGearView(),
+          '/addCostume': (_) => const AddEditCostumeView(),
         },
       ),
     );
@@ -50,6 +58,11 @@ Route<dynamic> _getRoute(RouteSettings settings) {
         return _buildRoute(settings, AddEditBattleGearView(model: arguments));
       }
       return _buildRoute(settings, const AddEditBattleGearView());
+    case '/editCostume':
+      if (arguments is CostumeModel) {
+        return _buildRoute(settings, AddEditCostumeView(model: arguments));
+      }
+      return _buildRoute(settings, const AddEditCostumeView());
     default:
       return _buildRoute(settings, HomeView());
   }
