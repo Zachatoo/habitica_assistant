@@ -16,9 +16,25 @@ class HabiticaUserProfileModel {
 
 class _HabiticaUserProfileItemsModel {
   late _HabiticaUserProfileGearModel gear;
+  late Iterable<String> pets;
+  late String currentPet;
+  late Iterable<String> mounts;
+  late String currentMount;
 
   _HabiticaUserProfileItemsModel.fromMap(Map<String, dynamic> map) {
     gear = _HabiticaUserProfileGearModel.fromMap(map["gear"] ?? {});
+    final petsObj = Map<String, int>.from(map["pets"]);
+    petsObj.removeWhere((key, value) => value == -1);
+    var petsList = petsObj.keys.toSet().toList();
+    petsList.insert(0, "");
+    pets = petsList;
+    currentPet = map["currentPet"] ?? "";
+    final mountsObj = Map<String, bool>.from(map["mounts"]);
+    mountsObj.removeWhere((key, value) => value == false);
+    var mountsList = mountsObj.keys.toSet().toList();
+    mountsList.insert(0, "");
+    mounts = mountsList;
+    currentMount = map["currentMount"] ?? "";
   }
 }
 
@@ -33,7 +49,7 @@ class _HabiticaUserProfileGearModel {
     final allOwned = Map<String, bool>.from(map["owned"]);
     allOwned.removeWhere((key, value) => value == false);
     final allOwnedKeys = allOwned.keys.toSet().toList();
-    allOwnedKeys.addAll(baseGear);
+    allOwnedKeys.insertAll(0, baseGear);
     owned = allOwnedKeys;
   }
 }

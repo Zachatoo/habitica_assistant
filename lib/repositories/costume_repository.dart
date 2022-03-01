@@ -19,6 +19,8 @@ class CostumeRepository extends BaseRepository<CostumeModel> {
       headAccessory: map["head_accessory"],
       body: map["body"],
       back: map["back"],
+      pet: map["pet"],
+      mount: map["mount"],
       updatedAt: DateTime.fromMillisecondsSinceEpoch(
           map["updatedAt"] ?? DateTime.now().millisecondsSinceEpoch),
       createdAt: DateTime.fromMillisecondsSinceEpoch(
@@ -41,6 +43,8 @@ class CostumeRepository extends BaseRepository<CostumeModel> {
       'head_accessory': entity.headAccessory,
       'body': entity.body,
       'back': entity.back,
+      'pet': entity.pet,
+      'mount': entity.mount,
       'updated_at': entity.updatedAt.millisecondsSinceEpoch,
       'created_at': entity.createdAt.millisecondsSinceEpoch,
       'deleted': entity.deleted,

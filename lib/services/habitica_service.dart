@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:habitica_assistant/models/battle_gear_model.dart';
 import 'package:habitica_assistant/models/costume_model.dart';
+import 'package:habitica_assistant/models/gear_full_model.dart';
 import 'package:habitica_assistant/models/gear_model.dart';
 import 'package:habitica_assistant/models/habitica_user_profile_model.dart';
 import 'package:habitica_assistant/models/parsed_response_model.dart';
@@ -40,78 +41,67 @@ class HabiticaService {
   }
 
   Future<void> setEquippedBattleGear(BattleGearModel gear) async {
-    const String type = 'equipped';
     final equippedGear = await getEquippedBattleGear();
-    if (equippedGear.armor != gear.armor) {
-      await _equipItem(type, gear.armor, equippedGear.armor);
-    }
-    if (equippedGear.head != gear.head) {
-      await _equipItem(type, gear.head, equippedGear.head);
-    }
-    if (equippedGear.shield != gear.shield) {
-      await _equipItem(type, gear.shield, equippedGear.shield);
-    }
-    if (equippedGear.weapon != gear.weapon) {
-      await _equipItem(type, gear.weapon, equippedGear.weapon);
-    }
-    if (equippedGear.eyewear != gear.eyewear) {
-      await _equipItem(type, gear.eyewear, equippedGear.eyewear);
-    }
-    if (equippedGear.headAccessory != gear.headAccessory) {
-      await _equipItem(type, gear.headAccessory, equippedGear.headAccessory);
-    }
-    if (equippedGear.body != gear.body) {
-      await _equipItem(type, gear.body, equippedGear.body);
-    }
-    if (equippedGear.back != gear.back) {
-      await _equipItem(type, gear.back, equippedGear.back);
-    }
+    await _equipEquipment(gear.armor, equippedGear.armor);
+    await _equipEquipment(gear.head, equippedGear.head);
+    await _equipEquipment(gear.shield, equippedGear.shield);
+    await _equipEquipment(gear.weapon, equippedGear.weapon);
+    await _equipEquipment(gear.eyewear, equippedGear.eyewear);
+    await _equipEquipment(gear.headAccessory, equippedGear.headAccessory);
+    await _equipEquipment(gear.body, equippedGear.body);
+    await _equipEquipment(gear.back, equippedGear.back);
   }
 
-  Future<GearModel> getEquippedCostume() async {
+  Future<GearFullModel> getEquippedCostume() async {
     final response = await getAuthenticatedUserProfile();
-    final GearModel equippedCostume = response.items.gear.costume;
+    final equippedCostume = GearFullModel.fromHabiticaUserProfile(response);
     return equippedCostume;
   }
 
-  Future<void> setEquippedCostume(CostumeModel gear) async {
-    const String type = 'costume';
-    final equippedGear = await getEquippedCostume();
-    if (equippedGear.armor != gear.armor) {
-      await _equipItem(type, gear.armor, equippedGear.armor);
-    }
-    if (equippedGear.head != gear.head) {
-      await _equipItem(type, gear.head, equippedGear.head);
-    }
-    if (equippedGear.shield != gear.shield) {
-      await _equipItem(type, gear.shield, equippedGear.shield);
-    }
-    if (equippedGear.weapon != gear.weapon) {
-      await _equipItem(type, gear.weapon, equippedGear.weapon);
-    }
-    if (equippedGear.eyewear != gear.eyewear) {
-      await _equipItem(type, gear.eyewear, equippedGear.eyewear);
-    }
-    if (equippedGear.headAccessory != gear.headAccessory) {
-      await _equipItem(type, gear.headAccessory, equippedGear.headAccessory);
-    }
-    if (equippedGear.body != gear.body) {
-      await _equipItem(type, gear.body, equippedGear.body);
-    }
-    if (equippedGear.back != gear.back) {
-      await _equipItem(type, gear.back, equippedGear.back);
-    }
+  Future<void> setEquippedCostume(CostumeModel costume) async {
+    final equippedCostume = await getEquippedCostume();
+    await _equipCostume(costume.armor, equippedCostume.armor);
+    await _equipCostume(costume.head, equippedCostume.head);
+    await _equipCostume(costume.shield, equippedCostume.shield);
+    await _equipCostume(costume.weapon, equippedCostume.weapon);
+    await _equipCostume(costume.eyewear, equippedCostume.eyewear);
+    await _equipCostume(costume.headAccessory, equippedCostume.headAccessory);
+    await _equipCostume(costume.body, equippedCostume.body);
+    await _equipCostume(costume.back, equippedCostume.back);
+    await _equipPet(costume.pet, equippedCostume.pet);
+    await _equipMount(costume.mount, equippedCostume.mount);
+  }
+
+  Future<void> _equipEquipment(String? itemToEquip, String? equippedItem) async {
+    return _equipItem('equipped', itemToEquip, equippedItem);
+  }
+
+  Future<void> _equipCostume(String? itemToEquip, String? equippedItem) async {
+    return _equipItem('costume', itemToEquip, equippedItem);
+  }
+
+  Future<void> _equipPet(String? petToEquip, String? equippedPet) async {
+    return _equipItem('pet', petToEquip, equippedPet);
+  }
+
+  Future<void> _equipMount(String? mountToEquip, String? equippedMount) async {
+    return _equipItem('mount', mountToEquip, equippedMount);
   }
 
   Future<void> _equipItem(String type, String? itemToEquip, String? equippedItem) async {
+    if (itemToEquip == equippedItem ||
+        ((itemToEquip == null || itemToEquip.isEmpty) &&
+            (equippedItem == null || equippedItem.isEmpty))) {
+      return;
+    }
     String? key;
-    if (baseGear.contains(itemToEquip)) {
+    if (baseGear.contains(itemToEquip) || (itemToEquip == null && equippedItem!.isNotEmpty)) {
       key = equippedItem;
     } else {
       key = itemToEquip;
     }
     if (key == null) {
-      throw Exception('Failed to equip null item');
+      throw Exception('Failed to equip $itemToEquip item of type $type');
     }
     Uri url = Uri.parse('$baseUrl/user/equip/$type/$key');
     final response = ParsedResponseModel<String>.fromResponse(

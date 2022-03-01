@@ -20,6 +20,8 @@ class _AddEditCostumeViewState extends State<AddEditCostumeView> {
   late Future<CostumeModel?> _gearFuture;
   late CostumeModel _gear;
   late Iterable<String> _gearList;
+  late Iterable<String> _petsList;
+  late Iterable<String> _mountsList;
 
   @override
   void initState() {
@@ -32,16 +34,27 @@ class _AddEditCostumeViewState extends State<AddEditCostumeView> {
       final userProfile = await _habiticaService.getAuthenticatedUserProfile();
       final equippedCostume = userProfile.items.gear.costume;
       final gearList = userProfile.items.gear.owned;
+      final petsList = userProfile.items.pets;
+      final mountsList = userProfile.items.pets;
       if (mounted) {
         if (widget.model is CostumeModel) {
           setState(() {
             _gear = widget.model as CostumeModel;
             _gearList = gearList;
+            _petsList = petsList;
+            _mountsList = mountsList;
           });
         } else {
           setState(() {
-            _gear = CostumeModel.fromGear(name: '', gear: equippedCostume);
+            _gear = CostumeModel.fromGear(
+              name: '',
+              gear: equippedCostume,
+              pet: userProfile.items.currentPet,
+              mount: userProfile.items.currentMount,
+            );
             _gearList = gearList;
+            _petsList = petsList;
+            _mountsList = mountsList;
           });
         }
       }
@@ -226,6 +239,36 @@ class _AddEditCostumeViewState extends State<AddEditCostumeView> {
             }),
             items: _gearList
                 .where((element) => element.startsWith('back'))
+                .map(
+                  (e) => DropdownMenuItem(
+                    child: Text(e),
+                    value: e,
+                  ),
+                )
+                .toList(),
+          ),
+          DropdownButtonFormField(
+            value: _gear.pet,
+            decoration: const InputDecoration(labelText: 'Pet'),
+            onChanged: (String? value) => setState(() {
+              _gear.pet = value;
+            }),
+            items: _petsList
+                .map(
+                  (e) => DropdownMenuItem(
+                    child: Text(e),
+                    value: e,
+                  ),
+                )
+                .toList(),
+          ),
+          DropdownButtonFormField(
+            value: _gear.mount,
+            decoration: const InputDecoration(labelText: 'Mount'),
+            onChanged: (String? value) => setState(() {
+              _gear.mount = value;
+            }),
+            items: _mountsList
                 .map(
                   (e) => DropdownMenuItem(
                     child: Text(e),

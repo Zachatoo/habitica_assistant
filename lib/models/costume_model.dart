@@ -1,4 +1,5 @@
 import 'package:habitica_assistant/models/base_model.dart';
+import 'package:habitica_assistant/models/gear_full_model.dart';
 import 'package:habitica_assistant/models/gear_model.dart';
 
 class CostumeModel extends BaseModel {
@@ -13,6 +14,8 @@ class CostumeModel extends BaseModel {
   String? headAccessory;
   String? body;
   String? back;
+  String? pet;
+  String? mount;
 
   CostumeModel({
     int? id,
@@ -26,6 +29,8 @@ class CostumeModel extends BaseModel {
     this.headAccessory,
     this.body,
     this.back,
+    this.pet,
+    this.mount,
     DateTime? updatedAt,
     DateTime? createdAt,
     bool? deleted,
@@ -36,6 +41,8 @@ class CostumeModel extends BaseModel {
     required this.name,
     this.sequence = 0,
     required GearModel gear,
+    this.pet,
+    this.mount,
     DateTime? updatedAt,
     DateTime? createdAt,
     bool? deleted,
@@ -48,6 +55,27 @@ class CostumeModel extends BaseModel {
     headAccessory = gear.headAccessory;
     body = gear.body;
     back = gear.back;
+  }
+
+  CostumeModel.fromGearFull({
+    int? id,
+    required this.name,
+    this.sequence = 0,
+    required GearFullModel gear,
+    DateTime? updatedAt,
+    DateTime? createdAt,
+    bool? deleted,
+  }) : super(id: id, updatedAt: updatedAt, createdAt: createdAt, deleted: deleted) {
+    armor = gear.armor;
+    head = gear.head;
+    shield = gear.shield;
+    weapon = gear.weapon;
+    eyewear = gear.eyewear;
+    headAccessory = gear.headAccessory;
+    body = gear.body;
+    back = gear.back;
+    pet = gear.pet;
+    mount = gear.mount;
   }
 
   @override
@@ -64,6 +92,8 @@ class CostumeModel extends BaseModel {
       headAccessory: $headAccessory,
       body: $body,
       back: $back,
+      pet: $pet,
+      mount: $mount,
       updatedAt: $updatedAt,
       createdAt: $createdAt,
       deleted: $deleted
