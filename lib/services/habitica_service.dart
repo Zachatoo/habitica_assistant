@@ -6,12 +6,12 @@ import 'package:habitica_assistant/models/gear_full_model.dart';
 import 'package:habitica_assistant/models/gear_model.dart';
 import 'package:habitica_assistant/models/habitica_user_profile_model.dart';
 import 'package:habitica_assistant/models/parsed_response_model.dart';
-import 'package:habitica_assistant/services/shared_preferences_service.dart';
+import 'package:habitica_assistant/services/secure_storage_service.dart';
 import 'package:habitica_assistant/utils/habitica_base_gear.dart';
 import 'package:http/http.dart' as http;
 
 class HabiticaService {
-  final SharedPreferencesService _sharedPreferencesService = SharedPreferencesService();
+  static final SecureStorageService _secureStorageService = SecureStorageService();
   static const String baseUrl = 'https://habitica.com/api/v3';
   static const String client = '67d1d9e3-57cc-4d7c-ab00-b09b63780a78-HabiticaAssistant';
   String? _apiToken;
@@ -116,8 +116,11 @@ class HabiticaService {
   }
 
   Future<Map<String, String>> _getHeaders() async {
-    _apiToken ??= await _sharedPreferencesService.getApiToken();
-    _userID ??= await _sharedPreferencesService.getUserID();
+    if (_apiToken == null || _userID == null) {
+      final authData = await _secureStorageService.getAuthData();
+      _apiToken = authData.apiToken;
+      _userID = authData.userID;
+    }
     return {
       "x-api-key": _apiToken as String,
       "x-api-user": _userID as String,
