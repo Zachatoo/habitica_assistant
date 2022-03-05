@@ -48,6 +48,7 @@ class _AddEditBattleGearViewState extends State<AddEditBattleGearView> {
       return _gear;
     } catch (ex) {
       buildSnackBar(context: context, content: ex.toString());
+      return null;
     }
   }
 

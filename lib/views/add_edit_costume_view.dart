@@ -61,6 +61,7 @@ class _AddEditCostumeViewState extends State<AddEditCostumeView> {
       return _gear;
     } catch (ex) {
       buildSnackBar(context: context, content: ex.toString());
+      return null;
     }
   }
 
