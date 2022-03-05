@@ -16,6 +16,7 @@ class BattleGearView extends StatefulWidget {
 
 class _BattleGearViewState extends State<BattleGearView> {
   final HabiticaService _habiticaService = HabiticaService();
+  final _pageController = PageController();
   int _currentTabIndex = 0;
 
   @override
@@ -24,10 +25,24 @@ class _BattleGearViewState extends State<BattleGearView> {
     _currentTabIndex = 0;
   }
 
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
+
   void _handleTabChange(int newIndex) {
     setState(() {
       _currentTabIndex = newIndex;
     });
+  }
+
+  void _handleTapTabChange(int newIndex) {
+    _pageController.animateToPage(
+      newIndex,
+      duration: const Duration(milliseconds: 200),
+      curve: Curves.bounceOut,
+    );
   }
 
   void _addBattleGear(context) async {
@@ -160,104 +175,101 @@ class _BattleGearViewState extends State<BattleGearView> {
     throw Exception('Invalid index');
   }
 
-  Widget _getBody(BuildContext context) {
-    switch (_currentTabIndex) {
-      case 0:
-        return Consumer<BattleGearProvider>(
-          builder: (context, provider, _) {
-            return GridView.count(
-              crossAxisCount: 2,
-              mainAxisSpacing: 10,
-              crossAxisSpacing: 10,
-              primary: false,
-              padding: const EdgeInsets.all(20),
-              children: <Widget>[
-                ...provider.entities.map((entity) {
-                  return Card(
-                    color: Theme.of(context).highlightColor,
-                    child: InkWell(
-                      onTap: () => _setEquippedBattleGear(entity, context),
-                      child: Column(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              PopupMenuButton(
-                                itemBuilder: (context) => [
-                                  const PopupMenuItem(
-                                    child: Text("Edit"),
-                                    value: 1,
-                                  ),
-                                  const PopupMenuItem(
-                                    child: Text("Delete"),
-                                    value: 2,
-                                  )
-                                ],
-                                onSelected: (option) => _handleBattleGearDropdownSelect(
-                                    option as int, entity, context, provider),
-                                icon: const Icon(Icons.more_vert),
-                              ),
-                            ],
-                          ),
-                          Text(entity.name),
-                        ],
-                      ),
+  List<Widget> _getPages(BuildContext context) {
+    return [
+      Consumer<BattleGearProvider>(
+        builder: (context, provider, _) {
+          return GridView.count(
+            crossAxisCount: 2,
+            mainAxisSpacing: 10,
+            crossAxisSpacing: 10,
+            primary: false,
+            padding: const EdgeInsets.all(20),
+            children: <Widget>[
+              ...provider.entities.map((entity) {
+                return Card(
+                  color: Theme.of(context).highlightColor,
+                  child: InkWell(
+                    onTap: () => _setEquippedBattleGear(entity, context),
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            PopupMenuButton(
+                              itemBuilder: (context) => [
+                                const PopupMenuItem(
+                                  child: Text("Edit"),
+                                  value: 1,
+                                ),
+                                const PopupMenuItem(
+                                  child: Text("Delete"),
+                                  value: 2,
+                                )
+                              ],
+                              onSelected: (option) => _handleBattleGearDropdownSelect(
+                                  option as int, entity, context, provider),
+                              icon: const Icon(Icons.more_vert),
+                            ),
+                          ],
+                        ),
+                        Text(entity.name),
+                      ],
                     ),
-                  );
-                }),
-              ],
-            );
-          },
-        );
-      case 1:
-        return Consumer<CostumeProvider>(
-          builder: (context, provider, _) {
-            return GridView.count(
-              crossAxisCount: 2,
-              mainAxisSpacing: 10,
-              crossAxisSpacing: 10,
-              primary: false,
-              padding: const EdgeInsets.all(20),
-              children: <Widget>[
-                ...provider.entities.map((entity) {
-                  return Card(
-                    color: Theme.of(context).highlightColor,
-                    child: InkWell(
-                      onTap: () => _setEquippedCostume(entity, context),
-                      child: Column(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              PopupMenuButton(
-                                itemBuilder: (context) => [
-                                  const PopupMenuItem(
-                                    child: Text("Edit"),
-                                    value: 1,
-                                  ),
-                                  const PopupMenuItem(
-                                    child: Text("Delete"),
-                                    value: 2,
-                                  )
-                                ],
-                                onSelected: (option) => _handleCostumeDropdownSelect(
-                                    option as int, entity, context, provider),
-                                icon: const Icon(Icons.more_vert),
-                              ),
-                            ],
-                          ),
-                          Text(entity.name),
-                        ],
-                      ),
+                  ),
+                );
+              }),
+            ],
+          );
+        },
+      ),
+      Consumer<CostumeProvider>(
+        builder: (context, provider, _) {
+          return GridView.count(
+            crossAxisCount: 2,
+            mainAxisSpacing: 10,
+            crossAxisSpacing: 10,
+            primary: false,
+            padding: const EdgeInsets.all(20),
+            children: <Widget>[
+              ...provider.entities.map((entity) {
+                return Card(
+                  color: Theme.of(context).highlightColor,
+                  child: InkWell(
+                    onTap: () => _setEquippedCostume(entity, context),
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            PopupMenuButton(
+                              itemBuilder: (context) => [
+                                const PopupMenuItem(
+                                  child: Text("Edit"),
+                                  value: 1,
+                                ),
+                                const PopupMenuItem(
+                                  child: Text("Delete"),
+                                  value: 2,
+                                )
+                              ],
+                              onSelected: (option) => _handleCostumeDropdownSelect(
+                                  option as int, entity, context, provider),
+                              icon: const Icon(Icons.more_vert),
+                            ),
+                          ],
+                        ),
+                        Text(entity.name),
+                      ],
                     ),
-                  );
-                }),
-              ],
-            );
-          },
-        );
-    }
-    throw Exception('Invalid index');
+                  ),
+                );
+              }),
+            ],
+          );
+        },
+      ),
+    ];
   }
 
   @override
@@ -268,7 +280,11 @@ class _BattleGearViewState extends State<BattleGearView> {
         backgroundColor: Theme.of(context).primaryColor,
         actions: [_getAppBarAction(context)],
       ),
-      body: _getBody(context),
+      body: PageView(
+        controller: _pageController,
+        onPageChanged: _handleTabChange,
+        children: _getPages(context),
+      ),
       bottomNavigationBar: BottomNavigationBar(
         items: const [
           BottomNavigationBarItem(
@@ -282,7 +298,7 @@ class _BattleGearViewState extends State<BattleGearView> {
         ],
         currentIndex: _currentTabIndex,
         selectedItemColor: Theme.of(context).primaryColor,
-        onTap: _handleTabChange,
+        onTap: _handleTapTabChange,
       ),
     );
   }
