@@ -51,6 +51,12 @@ class _AddEditCostumeViewState extends State<AddEditCostumeView> {
               gear: equippedCostume,
               pet: userProfile.items.currentPet,
               mount: userProfile.items.currentMount,
+              hair: userProfile.preferences.hair,
+              size: userProfile.preferences.size,
+              skin: userProfile.preferences.skin,
+              shirt: userProfile.preferences.shirt,
+              chair: userProfile.preferences.chair,
+              background: userProfile.preferences.background,
             );
             _gearList = gearList;
             _petsList = petsList;

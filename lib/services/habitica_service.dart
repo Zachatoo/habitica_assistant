@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:habitica_assistant/models/battle_gear_model.dart';
 import 'package:habitica_assistant/models/costume_model.dart';
-import 'package:habitica_assistant/models/gear_full_model.dart';
+import 'package:habitica_assistant/models/appearance_model.dart';
 import 'package:habitica_assistant/models/gear_model.dart';
 import 'package:habitica_assistant/models/habitica_user_profile_model.dart';
 import 'package:habitica_assistant/models/parsed_response_model.dart';
@@ -52,14 +52,14 @@ class HabiticaService {
     await _equipEquipment(gear.back, equippedGear.back);
   }
 
-  Future<GearFullModel> getEquippedCostume() async {
+  Future<AppearanceModel> getAppearance() async {
     final response = await getAuthenticatedUserProfile();
-    final equippedCostume = GearFullModel.fromHabiticaUserProfile(response);
+    final equippedCostume = AppearanceModel.fromHabiticaUserProfile(response);
     return equippedCostume;
   }
 
   Future<void> setEquippedCostume(CostumeModel costume) async {
-    final equippedCostume = await getEquippedCostume();
+    final equippedCostume = await getAppearance();
     await _equipCostume(costume.armor, equippedCostume.armor);
     await _equipCostume(costume.head, equippedCostume.head);
     await _equipCostume(costume.shield, equippedCostume.shield);
@@ -70,6 +70,9 @@ class HabiticaService {
     await _equipCostume(costume.back, equippedCostume.back);
     await _equipPet(costume.pet, equippedCostume.pet);
     await _equipMount(costume.mount, equippedCostume.mount);
+
+    final preferences = HabiticaUserProfilePreferencesModel.fromCostume(costume);
+    await _updatePreferences(preferences);
   }
 
   Future<void> _equipEquipment(String? itemToEquip, String? equippedItem) async {
@@ -106,6 +109,20 @@ class HabiticaService {
     Uri url = Uri.parse('$baseUrl/user/equip/$type/$key');
     final response = ParsedResponseModel<String>.fromResponse(
         await http.post(url, headers: await _getHeaders()));
+    final responseJson = jsonDecode(response.body);
+    if (!response.isOk()) {
+      if (response.isUnauthorized()) {
+        throw Exception('Unauthorized');
+      }
+      throw Exception(responseJson["error"]);
+    }
+  }
+
+  Future<void> _updatePreferences(HabiticaUserProfilePreferencesModel preferences) async {
+    Uri url = Uri.parse('$baseUrl/user');
+    final response = ParsedResponseModel<String>.fromResponse(
+      await http.put(url, headers: await _getHeaders(), body: preferences.toMap()),
+    );
     final responseJson = jsonDecode(response.body);
     if (!response.isOk()) {
       if (response.isUnauthorized()) {

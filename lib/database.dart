@@ -21,7 +21,7 @@ class DatabaseClient {
       onCreate: _onCreate,
       onUpgrade: _onUpgrade,
       onDowngrade: _onDowngrade,
-      version: 2,
+      version: 3,
     );
   }
 

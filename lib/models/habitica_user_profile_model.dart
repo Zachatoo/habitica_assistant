@@ -1,16 +1,18 @@
+import 'package:habitica_assistant/models/costume_model.dart';
 import 'package:habitica_assistant/models/gear_model.dart';
+import 'package:habitica_assistant/models/hair_model.dart';
 import 'package:habitica_assistant/utils/habitica_base_gear.dart';
 
 class HabiticaUserProfileModel {
   // Map<String, dynamic> auth;
   // Map<String, dynamic> flags;
   late _HabiticaUserProfileItemsModel items;
-  late _HabiticaUserProfilePreferencesModel preferences;
+  late HabiticaUserProfilePreferencesModel preferences;
   // Map<String, dynamic>[] notifications;
 
   HabiticaUserProfileModel.fromMap(Map<String, dynamic> map) {
     items = _HabiticaUserProfileItemsModel.fromMap(map["items"] ?? {});
-    preferences = _HabiticaUserProfilePreferencesModel.fromMap(map["preferences"] ?? {});
+    preferences = HabiticaUserProfilePreferencesModel.fromMap(map["preferences"] ?? {});
   }
 }
 
@@ -54,8 +56,8 @@ class _HabiticaUserProfileGearModel {
   }
 }
 
-class _HabiticaUserProfilePreferencesModel {
-  // Map<String, dynamic> hair;
+class HabiticaUserProfilePreferencesModel {
+  late HairModel hair;
   // Map<String, bool> emailNotifications;
   // Map<String, bool> pushNotifications;
   // Map<String, bool> suppressModals;
@@ -88,11 +90,59 @@ class _HabiticaUserProfilePreferencesModel {
   // int timezoneOffsetAtLastCron;
   // bool automaticAllocation;
 
-  _HabiticaUserProfilePreferencesModel.fromMap(Map<String, dynamic> map) {
+  HabiticaUserProfilePreferencesModel.fromMap(Map<String, dynamic> map) {
+    hair = HairModel.fromMap(map["hair"] ?? {});
     size = map["size"] ?? "";
     skin = map["skin"] ?? "";
     shirt = map["shirt"] ?? "";
     chair = map["chair"] ?? "";
     background = map["background"] ?? "";
+  }
+
+  HabiticaUserProfilePreferencesModel.fromCostume(CostumeModel costume) {
+    hair = costume.hair ?? HairModel();
+    size = costume.size ?? "";
+    skin = costume.skin ?? "";
+    shirt = costume.shirt ?? "";
+    chair = costume.chair ?? "";
+    background = costume.background ?? "";
+  }
+
+  Map<String, dynamic> toMap() {
+    final Map<String, dynamic> map = {};
+    if (hair.color.isNotEmpty) {
+      map['preferences.hair.color'] = hair.color;
+    }
+    if (hair.base.isNotEmpty) {
+      map['preferences.hair.base'] = hair.base;
+    }
+    if (hair.bangs.isNotEmpty) {
+      map['preferences.hair.bangs'] = hair.bangs;
+    }
+    if (hair.beard.isNotEmpty) {
+      map['preferences.hair.beard'] = hair.beard;
+    }
+    if (hair.mustache.isNotEmpty) {
+      map['preferences.hair.mustache'] = hair.mustache;
+    }
+    if (hair.flower.isNotEmpty) {
+      map['preferences.hair.flower'] = hair.flower;
+    }
+    if (size.isNotEmpty) {
+      map['preferences.size'] = size;
+    }
+    if (skin.isNotEmpty) {
+      map['preferences.skin'] = skin;
+    }
+    if (shirt.isNotEmpty) {
+      map['preferences.shirt'] = shirt;
+    }
+    if (chair.isNotEmpty) {
+      map['preferences.chair'] = chair;
+    }
+    if (background.isNotEmpty) {
+      map['preferences.background'] = background;
+    }
+    return map;
   }
 }

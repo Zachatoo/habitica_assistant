@@ -21,6 +21,12 @@ class CostumeRepository extends BaseRepository<CostumeModel> {
       back: map["back"],
       pet: map["pet"],
       mount: map["mount"],
+      hair: map["hair"],
+      size: map["size"],
+      skin: map["skin"],
+      shirt: map["shirt"],
+      chair: map["chair"],
+      background: map["background"],
       updatedAt: DateTime.fromMillisecondsSinceEpoch(
           map["updatedAt"] ?? DateTime.now().millisecondsSinceEpoch),
       createdAt: DateTime.fromMillisecondsSinceEpoch(
