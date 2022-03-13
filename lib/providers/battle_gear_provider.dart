@@ -60,6 +60,9 @@ class BattleGearProvider extends ChangeNotifier {
     final index = _entities.indexWhere((e) => e.id == updatedEntity.id);
     if (index != -1) {
       _entities[index] = updatedEntity;
+      if (updatedEntity.deleted) {
+        _entities.removeAt(index);
+      }
     }
     notifyListeners();
     return updatedEntity;
