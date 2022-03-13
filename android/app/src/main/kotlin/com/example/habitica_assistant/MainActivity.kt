@@ -1,4 +1,4 @@
-package com.example.habitica_assistant
+package com.zachatoo.habitica_assistant
 
 import io.flutter.embedding.android.FlutterActivity
 
