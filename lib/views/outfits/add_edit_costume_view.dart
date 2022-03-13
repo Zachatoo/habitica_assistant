@@ -288,7 +288,7 @@ class _AddEditCostumeViewState extends State<AddEditCostumeView> {
           ),
           ElevatedButton(
             onPressed: _handleSubmit,
-            child: const Text('Submit'),
+            child: const Text('Save'),
           ),
         ],
       ),

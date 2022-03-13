@@ -25,6 +25,7 @@ class MyApp extends StatelessWidget {
 
   final primaryColor = const Color(0xFF34B5C1); // teal 50
   final highlightColor = const Color(0xFF3BCAD7); // teal 100
+  final errorColor = const Color.fromARGB(255, 224, 118, 111);
   final greyColor = const Color.fromARGB(255, 49, 56, 58);
 
   Route<dynamic> _getRoute(RouteSettings settings) {
@@ -62,6 +63,7 @@ class MyApp extends StatelessWidget {
         theme: Theme.of(context).copyWith(
           primaryColor: primaryColor,
           highlightColor: highlightColor,
+          errorColor: errorColor,
           scaffoldBackgroundColor: Colors.black54,
           canvasColor: Colors.black,
           textTheme: const TextTheme().apply(
@@ -78,6 +80,12 @@ class MyApp extends StatelessWidget {
             floatingLabelBehavior: FloatingLabelBehavior.always,
             hintStyle: const TextStyle(color: Colors.white54),
             border: const UnderlineInputBorder(),
+            enabledBorder: const UnderlineInputBorder(
+              borderSide: BorderSide(color: Colors.grey),
+            ),
+            focusedBorder: UnderlineInputBorder(
+              borderSide: BorderSide(color: highlightColor),
+            ),
           ),
           listTileTheme: ListTileTheme.of(context).copyWith(
             textColor: Colors.white,
@@ -101,6 +109,9 @@ class MyApp extends StatelessWidget {
             backgroundColor: Colors.black,
             unselectedItemColor: Colors.grey,
             selectedItemColor: primaryColor,
+          ),
+          elevatedButtonTheme: ElevatedButtonThemeData(
+            style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(primaryColor)),
           ),
           snackBarTheme: SnackBarThemeData(
             behavior: SnackBarBehavior.floating,

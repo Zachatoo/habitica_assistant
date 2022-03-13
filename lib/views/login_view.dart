@@ -72,7 +72,7 @@ class _LoginViewState extends State<LoginView> {
         key: _formKey,
         child: Container(
           padding: const EdgeInsets.only(left: 10, right: 10),
-          child: Column(
+          child: ListView(
             children: [
               Center(
                 child: Container(

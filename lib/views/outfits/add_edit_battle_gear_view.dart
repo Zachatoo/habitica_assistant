@@ -239,7 +239,7 @@ class _AddEditBattleGearViewState extends State<AddEditBattleGearView> {
           ),
           ElevatedButton(
             onPressed: _handleSubmit,
-            child: const Text('Submit'),
+            child: const Text('Save'),
           ),
         ],
       ),
