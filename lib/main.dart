@@ -96,11 +96,11 @@ class MyApp extends StatelessWidget {
           bottomNavigationBarTheme: BottomNavigationBarTheme.of(context).copyWith(
             backgroundColor: Colors.black,
             unselectedItemColor: Colors.grey,
-            selectedItemColor: highlightColor,
+            selectedItemColor: primaryColor,
           ),
           snackBarTheme: SnackBarThemeData(
             behavior: SnackBarBehavior.floating,
-            actionTextColor: const Color(0xFF3BCAD7),
+            actionTextColor: primaryColor,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(20.0),
             ),
