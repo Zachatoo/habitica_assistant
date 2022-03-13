@@ -63,6 +63,8 @@ class BattleGearProvider extends ChangeNotifier {
       if (updatedEntity.deleted) {
         _entities.removeAt(index);
       }
+    } else if (!updatedEntity.deleted) {
+      _entities.insert(0, updatedEntity);
     }
     notifyListeners();
     return updatedEntity;

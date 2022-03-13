@@ -60,6 +60,11 @@ class CostumeProvider extends ChangeNotifier {
     final index = _entities.indexWhere((e) => e.id == updatedEntity.id);
     if (index != -1) {
       _entities[index] = updatedEntity;
+      if (updatedEntity.deleted) {
+        _entities.removeAt(index);
+      }
+    } else if (!updatedEntity.deleted) {
+      _entities.insert(0, updatedEntity);
     }
     notifyListeners();
     return updatedEntity;
