@@ -24,7 +24,7 @@ abstract class BaseRepository<T extends BaseModel> {
     final Database db = await databaseClient.database;
     List<Map<String, dynamic>> maps = await db.query(
       table,
-      where: "deleted = 0",
+      where: 'deleted = 0',
       orderBy: orderBy.toString(),
     );
     final results = List.generate(maps.length, (i) => fromMap(maps[i]));

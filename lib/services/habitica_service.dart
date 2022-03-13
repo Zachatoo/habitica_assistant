@@ -26,9 +26,9 @@ class HabiticaService {
       if (response.isUnauthorized()) {
         throw Exception('Unauthorized');
       }
-      throw Exception(responseJson["error"]);
+      throw Exception(responseJson['error']);
     }
-    final HabiticaUserProfileModel profile = HabiticaUserProfileModel.fromMap(responseJson["data"]);
+    final HabiticaUserProfileModel profile = HabiticaUserProfileModel.fromMap(responseJson['data']);
     return profile;
   }
 
@@ -112,7 +112,7 @@ class HabiticaService {
       if (response.isUnauthorized()) {
         throw Exception('Unauthorized');
       }
-      throw Exception(responseJson["error"]);
+      throw Exception(responseJson['error']);
     }
   }
 
@@ -126,16 +126,16 @@ class HabiticaService {
       if (response.isUnauthorized()) {
         throw Exception('Unauthorized');
       }
-      throw Exception(responseJson["error"]);
+      throw Exception(responseJson['error']);
     }
   }
 
   Future<Map<String, String>> _getHeaders() async {
     final authData = await _secureStorageService.getAuthData();
     return {
-      "x-api-key": authData.apiToken as String,
-      "x-api-user": authData.userID as String,
-      "x-client": client,
+      'x-api-key': authData.apiToken as String,
+      'x-api-user': authData.userID as String,
+      'x-client': client,
     };
   }
 }

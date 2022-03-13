@@ -72,10 +72,10 @@ class _AddEditBattleGearViewState extends State<AddEditBattleGearView> {
 
   @override
   Widget build(BuildContext context) {
-    final String headerAction = widget.model is BattleGearModel ? "Edit" : "Add";
+    final String headerAction = widget.model is BattleGearModel ? 'Edit' : 'Add';
     return Scaffold(
       appBar: AppBar(
-        title: Text("$headerAction Battle Gear"),
+        title: Text('$headerAction Battle Gear'),
       ),
       body: FutureBuilder(
         future: _gearFuture,

@@ -21,7 +21,7 @@ class SecureStorageService {
 
   Future<void> setAuthData(HabiticaAuthDataModel authData) async {
     if (authData.apiToken == null || authData.userID == null) {
-      throw Exception("Invalid api token");
+      throw Exception('Invalid api token');
     }
     final tokenFuture = setApiToken(authData.apiToken!);
     final userFuture = setUserID(authData.userID!);

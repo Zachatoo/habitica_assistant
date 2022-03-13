@@ -76,11 +76,11 @@ class CostumesView extends StatelessWidget {
               trailing: PopupMenuButton(
                 itemBuilder: (context) => [
                   const PopupMenuItem(
-                    child: Text("Edit"),
+                    child: Text('Edit'),
                     value: 1,
                   ),
                   const PopupMenuItem(
-                    child: Text("Delete"),
+                    child: Text('Delete'),
                     value: 2,
                   )
                 ],

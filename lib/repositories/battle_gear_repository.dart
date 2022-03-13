@@ -8,22 +8,22 @@ class BattleGearRepository extends BaseRepository<BattleGearModel> {
   @override
   BattleGearModel fromMap(Map<String, dynamic> map) {
     return BattleGearModel(
-      id: map["id"],
-      name: map["name"],
-      sequence: map["sequence"],
-      armor: map["armor"],
-      head: map["head"],
-      shield: map["shield"],
-      weapon: map["weapon"],
-      eyewear: map["eyewear"],
-      headAccessory: map["head_accessory"],
-      body: map["body"],
-      back: map["back"],
+      id: map['id'],
+      name: map['name'],
+      sequence: map['sequence'],
+      armor: map['armor'],
+      head: map['head'],
+      shield: map['shield'],
+      weapon: map['weapon'],
+      eyewear: map['eyewear'],
+      headAccessory: map['head_accessory'],
+      body: map['body'],
+      back: map['back'],
       updatedAt: DateTime.fromMillisecondsSinceEpoch(
-          map["updatedAt"] ?? DateTime.now().millisecondsSinceEpoch),
+          map['updatedAt'] ?? DateTime.now().millisecondsSinceEpoch),
       createdAt: DateTime.fromMillisecondsSinceEpoch(
-          map["createdAt"] ?? DateTime.now().millisecondsSinceEpoch),
-      deleted: map["deleted"] == 0 ? true : false,
+          map['createdAt'] ?? DateTime.now().millisecondsSinceEpoch),
+      deleted: map['deleted'] == 0 ? true : false,
     );
   }
 

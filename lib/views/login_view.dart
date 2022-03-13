@@ -52,7 +52,7 @@ class _LoginViewState extends State<LoginView> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text("Habitica Assistant"),
+          title: const Text('Habitica Assistant'),
           backgroundColor: Theme.of(context).primaryColor,
         ),
         body: Form(
@@ -67,15 +67,15 @@ class _LoginViewState extends State<LoginView> {
                       children: [
                         const TextSpan(
                           text:
-                              "Habitica Assistant requires your Habitica User ID and API Token to function correctly. Your User ID and API Token will be stored locally on your device only.\n\nBy entering your User ID and API Key below, you are allowing this application to act in your behalf using your credientials.\n\n",
+                              'Habitica Assistant requires your Habitica User ID and API Token to function correctly. Your User ID and API Token will be stored locally on your device only.\n\nBy entering your User ID and API Key below, you are allowing this application to act in your behalf using your credientials.\n\n',
                           style: TextStyle(color: Colors.black),
                         ),
                         const TextSpan(
-                          text: "You can get your User ID and API Token from this link ",
+                          text: 'You can get your User ID and API Token from this link ',
                           style: TextStyle(color: Colors.black),
                         ),
                         TextSpan(
-                          text: "https://habitica.com/user/settings/api",
+                          text: 'https://habitica.com/user/settings/api',
                           style: const TextStyle(color: Colors.blue),
                           recognizer: TapGestureRecognizer()..onTap = _handleClickLink,
                         ),

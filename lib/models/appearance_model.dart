@@ -69,21 +69,21 @@ class AppearanceModel extends GearModel {
   }
 
   AppearanceModel.fromMap(Map<String, dynamic> map) {
-    armor = map["armor"];
-    head = map["head"];
-    shield = map["shield"];
-    weapon = map["weapon"];
-    eyewear = map["eyewear"];
-    headAccessory = map["headAccessory"];
-    body = map["body"];
-    back = map["back"];
-    pet = map["pet"];
-    mount = map["mount"];
-    size = map["size"];
-    skin = map["skin"];
-    shirt = map["shirt"];
-    chair = map["chair"];
-    background = map["background"];
+    armor = map['armor'];
+    head = map['head'];
+    shield = map['shield'];
+    weapon = map['weapon'];
+    eyewear = map['eyewear'];
+    headAccessory = map['headAccessory'];
+    body = map['body'];
+    back = map['back'];
+    pet = map['pet'];
+    mount = map['mount'];
+    size = map['size'];
+    skin = map['skin'];
+    shirt = map['shirt'];
+    chair = map['chair'];
+    background = map['background'];
   }
 
   @override

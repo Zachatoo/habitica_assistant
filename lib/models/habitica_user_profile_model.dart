@@ -11,8 +11,8 @@ class HabiticaUserProfileModel {
   // Map<String, dynamic>[] notifications;
 
   HabiticaUserProfileModel.fromMap(Map<String, dynamic> map) {
-    items = _HabiticaUserProfileItemsModel.fromMap(map["items"] ?? {});
-    preferences = HabiticaUserProfilePreferencesModel.fromMap(map["preferences"] ?? {});
+    items = _HabiticaUserProfileItemsModel.fromMap(map['items'] ?? {});
+    preferences = HabiticaUserProfilePreferencesModel.fromMap(map['preferences'] ?? {});
   }
 }
 
@@ -24,19 +24,19 @@ class _HabiticaUserProfileItemsModel {
   late String currentMount;
 
   _HabiticaUserProfileItemsModel.fromMap(Map<String, dynamic> map) {
-    gear = _HabiticaUserProfileGearModel.fromMap(map["gear"] ?? {});
-    final petsObj = Map<String, int>.from(map["pets"]);
+    gear = _HabiticaUserProfileGearModel.fromMap(map['gear'] ?? {});
+    final petsObj = Map<String, int>.from(map['pets']);
     petsObj.removeWhere((key, value) => value == -1);
     var petsList = petsObj.keys.toSet().toList();
-    petsList.insert(0, "");
+    petsList.insert(0, '');
     pets = petsList;
-    currentPet = map["currentPet"] ?? "";
-    final mountsObj = Map<String, bool>.from(map["mounts"]);
+    currentPet = map['currentPet'] ?? '';
+    final mountsObj = Map<String, bool>.from(map['mounts']);
     mountsObj.removeWhere((key, value) => value == false);
     var mountsList = mountsObj.keys.toSet().toList();
-    mountsList.insert(0, "");
+    mountsList.insert(0, '');
     mounts = mountsList;
-    currentMount = map["currentMount"] ?? "";
+    currentMount = map['currentMount'] ?? '';
   }
 }
 
@@ -46,9 +46,9 @@ class _HabiticaUserProfileGearModel {
   late Iterable<String> owned;
 
   _HabiticaUserProfileGearModel.fromMap(Map<String, dynamic> map) {
-    equipped = GearModel.fromMap(map["equipped"] ?? {});
-    costume = GearModel.fromMap(map["costume"] ?? {});
-    final allOwned = Map<String, bool>.from(map["owned"]);
+    equipped = GearModel.fromMap(map['equipped'] ?? {});
+    costume = GearModel.fromMap(map['costume'] ?? {});
+    final allOwned = Map<String, bool>.from(map['owned']);
     allOwned.removeWhere((key, value) => value == false);
     final allOwnedKeys = allOwned.keys.toSet().toList();
     allOwnedKeys.insertAll(0, baseGear);
@@ -91,21 +91,21 @@ class HabiticaUserProfilePreferencesModel {
   // bool automaticAllocation;
 
   HabiticaUserProfilePreferencesModel.fromMap(Map<String, dynamic> map) {
-    hair = HairModel.fromMap(map["hair"] ?? {});
-    size = map["size"] ?? "";
-    skin = map["skin"] ?? "";
-    shirt = map["shirt"] ?? "";
-    chair = map["chair"] ?? "";
-    background = map["background"] ?? "";
+    hair = HairModel.fromMap(map['hair'] ?? {});
+    size = map['size'] ?? '';
+    skin = map['skin'] ?? '';
+    shirt = map['shirt'] ?? '';
+    chair = map['chair'] ?? '';
+    background = map['background'] ?? '';
   }
 
   HabiticaUserProfilePreferencesModel.fromCostume(CostumeModel costume) {
     hair = costume.hair ?? HairModel();
-    size = costume.size ?? "";
-    skin = costume.skin ?? "";
-    shirt = costume.shirt ?? "";
-    chair = costume.chair ?? "";
-    background = costume.background ?? "";
+    size = costume.size ?? '';
+    skin = costume.skin ?? '';
+    shirt = costume.shirt ?? '';
+    chair = costume.chair ?? '';
+    background = costume.background ?? '';
   }
 
   Map<String, dynamic> toMap() {

@@ -91,10 +91,10 @@ class _AddEditCostumeViewState extends State<AddEditCostumeView> {
 
   @override
   Widget build(BuildContext context) {
-    final String headerAction = widget.model is CostumeModel ? "Edit" : "Add";
+    final String headerAction = widget.model is CostumeModel ? 'Edit' : 'Add';
     return Scaffold(
       appBar: AppBar(
-        title: Text("$headerAction Costume"),
+        title: Text('$headerAction Costume'),
       ),
       body: FutureBuilder(
         future: _gearFuture,

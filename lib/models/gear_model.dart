@@ -33,14 +33,14 @@ class GearModel {
   }
 
   GearModel.fromMap(Map<String, dynamic> map) {
-    armor = map["armor"];
-    head = map["head"];
-    shield = map["shield"];
-    weapon = map["weapon"];
-    eyewear = map["eyewear"];
-    headAccessory = map["headAccessory"];
-    body = map["body"];
-    back = map["back"];
+    armor = map['armor'];
+    head = map['head'];
+    shield = map['shield'];
+    weapon = map['weapon'];
+    eyewear = map['eyewear'];
+    headAccessory = map['headAccessory'];
+    body = map['body'];
+    back = map['back'];
   }
 
   @override

@@ -20,6 +20,6 @@ class OrderBy {
     } else {
       direction = 'DESC';
     }
-    return "$column $direction";
+    return '$column $direction';
   }
 }
