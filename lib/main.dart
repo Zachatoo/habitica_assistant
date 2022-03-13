@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:habitica_assistant/models/battle_gear_model.dart';
 import 'package:habitica_assistant/providers/battle_gear_provider.dart';
 import 'package:habitica_assistant/providers/costume_provider.dart';
@@ -10,6 +11,11 @@ import 'package:provider/provider.dart';
 import 'models/costume_model.dart';
 
 void main() async {
+  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+    statusBarColor: Colors.transparent,
+    statusBarIconBrightness: Brightness.light,
+    systemNavigationBarColor: Colors.transparent,
+  ));
   WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
