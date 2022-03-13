@@ -121,6 +121,9 @@ class MyApp extends StatelessWidget {
             ),
             elevation: 3.0,
           ),
+          progressIndicatorTheme: ProgressIndicatorTheme.of(context).copyWith(
+            color: primaryColor,
+          ),
         ),
         home: HomeView(),
         onGenerateRoute: _getRoute,

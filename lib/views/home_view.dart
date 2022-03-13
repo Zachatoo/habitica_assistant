@@ -15,7 +15,7 @@ class HomeView extends StatelessWidget {
       future: _secureStorageService.getAuthData(),
       builder: (BuildContext context, AsyncSnapshot<HabiticaAuthDataModel> snapshot) {
         if (!snapshot.hasData) {
-          return const CircularProgressIndicator();
+          return const Center(child: CircularProgressIndicator());
         }
         if (snapshot.data!.apiToken != null && snapshot.data!.userID != null) {
           return const OutfitsView();
