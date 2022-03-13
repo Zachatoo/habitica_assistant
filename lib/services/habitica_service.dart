@@ -14,10 +14,8 @@ class HabiticaService {
   static final SecureStorageService _secureStorageService = SecureStorageService();
   static const String baseUrl = 'https://habitica.com/api/v3';
   static const String client = '67d1d9e3-57cc-4d7c-ab00-b09b63780a78-HabiticaAssistant';
-  String? _apiToken;
-  String? _userID;
 
-  HabiticaService();
+  const HabiticaService();
 
   Future<HabiticaUserProfileModel> getAuthenticatedUserProfile() async {
     Uri url = Uri.parse('$baseUrl/user');
@@ -133,14 +131,10 @@ class HabiticaService {
   }
 
   Future<Map<String, String>> _getHeaders() async {
-    if (_apiToken == null || _userID == null) {
-      final authData = await _secureStorageService.getAuthData();
-      _apiToken = authData.apiToken;
-      _userID = authData.userID;
-    }
+    final authData = await _secureStorageService.getAuthData();
     return {
-      "x-api-key": _apiToken as String,
-      "x-api-user": _userID as String,
+      "x-api-key": authData.apiToken as String,
+      "x-api-user": authData.userID as String,
       "x-client": client,
     };
   }

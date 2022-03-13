@@ -1,66 +1,47 @@
 import 'package:flutter/material.dart';
 import 'package:habitica_assistant/components/snack_bar.dart';
-import 'package:habitica_assistant/models/costume_model.dart';
-import 'package:habitica_assistant/providers/costume_provider.dart';
+import 'package:habitica_assistant/models/battle_gear_model.dart';
+import 'package:habitica_assistant/providers/battle_gear_provider.dart';
 import 'package:habitica_assistant/services/habitica_service.dart';
 import 'package:provider/provider.dart';
 
-class AddEditCostumeView extends StatefulWidget {
-  final CostumeModel? model;
-  const AddEditCostumeView({Key? key, this.model}) : super(key: key);
+class AddEditBattleGearView extends StatefulWidget {
+  final BattleGearModel? model;
+  const AddEditBattleGearView({Key? key, this.model}) : super(key: key);
 
   @override
-  _AddEditCostumeViewState createState() => _AddEditCostumeViewState();
+  _AddEditBattleGearViewState createState() => _AddEditBattleGearViewState();
 }
 
-class _AddEditCostumeViewState extends State<AddEditCostumeView> {
-  final HabiticaService _habiticaService = HabiticaService();
+class _AddEditBattleGearViewState extends State<AddEditBattleGearView> {
+  final HabiticaService _habiticaService = const HabiticaService();
 
   final _formKey = GlobalKey<FormState>();
-  late Future<CostumeModel?> _gearFuture;
-  late CostumeModel _gear;
+  late Future<BattleGearModel?> _gearFuture;
+  late BattleGearModel _gear;
   late Iterable<String> _gearList;
-  late Iterable<String> _petsList;
-  late Iterable<String> _mountsList;
 
   @override
   void initState() {
     super.initState();
-    _gearFuture = _initCostume();
+    _gearFuture = _initBattleGear();
   }
 
-  Future<CostumeModel?> _initCostume() async {
+  Future<BattleGearModel?> _initBattleGear() async {
     try {
       final userProfile = await _habiticaService.getAuthenticatedUserProfile();
-      final equippedCostume = userProfile.items.gear.costume;
+      final equippedGear = userProfile.items.gear.equipped;
       final gearList = userProfile.items.gear.owned;
-      final petsList = userProfile.items.pets;
-      final mountsList = userProfile.items.pets;
       if (mounted) {
-        if (widget.model is CostumeModel) {
+        if (widget.model is BattleGearModel) {
           setState(() {
-            _gear = widget.model as CostumeModel;
+            _gear = widget.model as BattleGearModel;
             _gearList = gearList;
-            _petsList = petsList;
-            _mountsList = mountsList;
           });
         } else {
           setState(() {
-            _gear = CostumeModel.fromGear(
-              name: '',
-              gear: equippedCostume,
-              pet: userProfile.items.currentPet,
-              mount: userProfile.items.currentMount,
-              hair: userProfile.preferences.hair,
-              size: userProfile.preferences.size,
-              skin: userProfile.preferences.skin,
-              shirt: userProfile.preferences.shirt,
-              chair: userProfile.preferences.chair,
-              background: userProfile.preferences.background,
-            );
+            _gear = BattleGearModel.fromGear(name: '', gear: equippedGear);
             _gearList = gearList;
-            _petsList = petsList;
-            _mountsList = mountsList;
           });
         }
       }
@@ -81,9 +62,9 @@ class _AddEditCostumeViewState extends State<AddEditCostumeView> {
   void _handleSubmit() async {
     if (_formKey.currentState!.validate()) {
       if (_gear.id != null) {
-        await Provider.of<CostumeProvider>(context, listen: false).update(_gear);
+        await Provider.of<BattleGearProvider>(context, listen: false).update(_gear);
       } else {
-        await Provider.of<CostumeProvider>(context, listen: false).insert(_gear);
+        await Provider.of<BattleGearProvider>(context, listen: false).insert(_gear);
       }
       Navigator.of(context).pop();
     }
@@ -91,15 +72,14 @@ class _AddEditCostumeViewState extends State<AddEditCostumeView> {
 
   @override
   Widget build(BuildContext context) {
-    final String headerAction = widget.model is CostumeModel ? "Edit" : "Add";
+    final String headerAction = widget.model is BattleGearModel ? "Edit" : "Add";
     return Scaffold(
       appBar: AppBar(
-        title: Text("$headerAction Costume"),
-        backgroundColor: Theme.of(context).primaryColor,
+        title: Text("$headerAction Battle Gear"),
       ),
       body: FutureBuilder(
         future: _gearFuture,
-        builder: (BuildContext context, AsyncSnapshot<CostumeModel?> snapshot) {
+        builder: (BuildContext context, AsyncSnapshot<BattleGearModel?> snapshot) {
           if (!snapshot.hasData) {
             return const Center(child: CircularProgressIndicator());
           }
@@ -121,7 +101,10 @@ class _AddEditCostumeViewState extends State<AddEditCostumeView> {
           TextFormField(
             initialValue: _gear.name,
             validator: _validateName,
-            decoration: const InputDecoration(labelText: 'Display Name'),
+            decoration: const InputDecoration(
+              labelText: 'Display Name',
+              hintText: 'Enter name here',
+            ),
             onChanged: (value) => setState(() {
               _gear.name = value;
             }),
@@ -254,40 +237,7 @@ class _AddEditCostumeViewState extends State<AddEditCostumeView> {
                 )
                 .toList(),
           ),
-          DropdownButtonFormField(
-            value: _gear.pet,
-            decoration: const InputDecoration(labelText: 'Pet'),
-            onChanged: (String? value) => setState(() {
-              _gear.pet = value;
-            }),
-            items: _petsList
-                .map(
-                  (e) => DropdownMenuItem(
-                    child: Text(e),
-                    value: e,
-                  ),
-                )
-                .toList(),
-          ),
-          DropdownButtonFormField(
-            value: _gear.mount,
-            decoration: const InputDecoration(labelText: 'Mount'),
-            onChanged: (String? value) => setState(() {
-              _gear.mount = value;
-            }),
-            items: _mountsList
-                .map(
-                  (e) => DropdownMenuItem(
-                    child: Text(e),
-                    value: e,
-                  ),
-                )
-                .toList(),
-          ),
           ElevatedButton(
-            // style: ButtonStyle(
-            //   backgroundColor: Theme.of(context).primaryColor,
-            // ),
             onPressed: _handleSubmit,
             child: const Text('Submit'),
           ),
