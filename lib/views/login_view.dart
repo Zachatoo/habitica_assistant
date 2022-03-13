@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:habitica_assistant/models/habitica_auth_data_model.dart';
 import 'package:habitica_assistant/services/secure_storage_service.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -13,6 +14,13 @@ class LoginView extends StatefulWidget {
 
 class _LoginViewState extends State<LoginView> {
   final SecureStorageService _secureStorageService = SecureStorageService();
+  final _disclaimerLine1 =
+      'Habitica Assistant requires your Habitica User ID and API Token to function correctly. Your User ID and API Token will be stored locally on your device only.';
+  final _disclaimerLine2 =
+      'By entering your User ID and API Key below, you are allowing this application to act in your behalf using your credientials.';
+  final _habiticaApiLink = 'https://habitica.com/user/settings/api';
+  final _tokenRegex = RegExp(r'^[\w\d]{8}-[\w\d]{4}-[\w\d]{4}-[\w\d]{4}-[\w\d]{12}$');
+  final _hintText = 'XXXXXXXX-XXXX-XXXX-XXXXXXXXXXXX';
 
   final _formKey = GlobalKey<FormState>();
   late HabiticaAuthDataModel _authData;
@@ -26,10 +34,15 @@ class _LoginViewState extends State<LoginView> {
   }
 
   String? _validateID(String? value) {
-    String pattern = r'^[\w\d]{8}-[\w\d]{4}-[\w\d]{4}-[\w\d]{4}-[\w\d]{12}$';
-    RegExp regex = RegExp(pattern);
-    if (value != null && !regex.hasMatch(value)) {
+    if (value != null && !_tokenRegex.hasMatch(value)) {
       return 'Enter valid ID';
+    }
+    return null;
+  }
+
+  String? _validateToken(String? value) {
+    if (value != null && !_tokenRegex.hasMatch(value)) {
+      return 'Enter valid token';
     }
     return null;
   }
@@ -42,40 +55,39 @@ class _LoginViewState extends State<LoginView> {
   }
 
   void _handleClickLink() async {
-    const url = 'https://habitica.com/user/settings/api';
-    if (await canLaunch(url)) {
-      launch(url);
+    if (await canLaunch(_habiticaApiLink)) {
+      launch(_habiticaApiLink);
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('Habitica Assistant'),
-          backgroundColor: Theme.of(context).primaryColor,
-        ),
-        body: Form(
-          key: _formKey,
+      appBar: AppBar(
+        title: const Text('Habitica Assistant'),
+        backgroundColor: Theme.of(context).primaryColor,
+        systemOverlayStyle: SystemUiOverlayStyle.light,
+      ),
+      body: Form(
+        key: _formKey,
+        child: Container(
+          padding: const EdgeInsets.only(left: 10, right: 10),
           child: Column(
             children: [
               Center(
                 child: Container(
-                  margin: const EdgeInsets.all(15),
+                  margin: const EdgeInsets.only(top: 15, bottom: 15),
                   child: RichText(
                     text: TextSpan(
                       children: [
-                        const TextSpan(
-                          text:
-                              'Habitica Assistant requires your Habitica User ID and API Token to function correctly. Your User ID and API Token will be stored locally on your device only.\n\nBy entering your User ID and API Key below, you are allowing this application to act in your behalf using your credientials.\n\n',
-                          style: TextStyle(color: Colors.black),
+                        TextSpan(
+                          text: '$_disclaimerLine1\n\n$_disclaimerLine2\n\n',
                         ),
                         const TextSpan(
                           text: 'You can get your User ID and API Token from this link ',
-                          style: TextStyle(color: Colors.black),
                         ),
                         TextSpan(
-                          text: 'https://habitica.com/user/settings/api',
+                          text: _habiticaApiLink,
                           style: const TextStyle(color: Colors.blue),
                           recognizer: TapGestureRecognizer()..onTap = _handleClickLink,
                         ),
@@ -87,28 +99,33 @@ class _LoginViewState extends State<LoginView> {
               TextFormField(
                 initialValue: _authData.userID,
                 validator: _validateID,
-                decoration: const InputDecoration(labelText: 'Habitica User ID'),
+                decoration: InputDecoration(
+                  labelText: 'Habitica User ID',
+                  hintText: _hintText,
+                ),
                 onChanged: (value) => setState(() {
                   _authData.userID = value;
                 }),
               ),
               TextFormField(
                 initialValue: _authData.apiToken,
-                validator: _validateID,
-                decoration: const InputDecoration(labelText: 'API Token'),
+                validator: _validateToken,
+                decoration: InputDecoration(
+                  labelText: 'API Token',
+                  hintText: _hintText,
+                ),
                 onChanged: (value) => setState(() {
                   _authData.apiToken = value;
                 }),
               ),
               ElevatedButton(
-                // style: ButtonStyle(
-                //   backgroundColor: Theme.of(context).primaryColor,
-                // ),
                 onPressed: _handleSubmit,
                 child: const Text('Save'),
               ),
             ],
           ),
-        ));
+        ),
+      ),
+    );
   }
 }
