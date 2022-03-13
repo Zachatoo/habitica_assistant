@@ -65,7 +65,7 @@ class BattleGearView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<BattleGearProvider>(
       builder: (context, provider, _) {
-        return ListView.builder(
+        return ListView.separated(
           primary: false,
           itemCount: provider.entityCount,
           itemBuilder: (context, index) {
@@ -90,6 +90,9 @@ class BattleGearView extends StatelessWidget {
                 icon: const Icon(Icons.more_vert),
               ),
             );
+          },
+          separatorBuilder: (context, index) {
+            return const Divider();
           },
         );
       },

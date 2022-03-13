@@ -64,7 +64,7 @@ class CostumesView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<CostumeProvider>(
       builder: (context, provider, _) {
-        return ListView.builder(
+        return ListView.separated(
           primary: false,
           itemCount: provider.entityCount,
           itemBuilder: (context, index) {
@@ -89,6 +89,9 @@ class CostumesView extends StatelessWidget {
                 icon: const Icon(Icons.more_vert),
               ),
             );
+          },
+          separatorBuilder: (context, index) {
+            return const Divider();
           },
         );
       },

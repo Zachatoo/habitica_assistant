@@ -83,6 +83,10 @@ class MyApp extends StatelessWidget {
             textColor: Colors.white,
             iconColor: Colors.white,
           ),
+          dividerTheme: DividerTheme.of(context).copyWith(
+            color: Colors.grey,
+            space: 0,
+          ),
           appBarTheme: AppBarTheme.of(context).copyWith(
             titleTextStyle: const TextStyle(
               color: Colors.white,
