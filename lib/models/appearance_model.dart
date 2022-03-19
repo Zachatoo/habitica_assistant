@@ -3,6 +3,23 @@ import 'package:habitica_assistant/models/hair_model.dart';
 
 import 'gear_model.dart';
 
+const String _kArmor = 'armor';
+const String _kHead = 'head';
+const String _kShield = 'shield';
+const String _kWeapon = 'weapon';
+const String _kEyewear = 'eyewear';
+const String _kHeadAccessory = 'head_accessory';
+const String _kBody = 'body';
+const String _kBack = 'back';
+const String _kPet = 'pet';
+const String _kMount = 'mount';
+const String _kHair = 'hair';
+const String _kSize = 'size';
+const String _kSkin = 'skin';
+const String _kShirt = 'shirt';
+const String _kChair = 'chair';
+const String _kBackground = 'background';
+
 class AppearanceModel extends GearModel {
   String? pet;
   String? mount;
@@ -49,61 +66,44 @@ class AppearanceModel extends GearModel {
   @override
   Map<String, dynamic> toMap() {
     return {
-      'armor': armor,
-      'head': head,
-      'shield': shield,
-      'weapon': weapon,
-      'eyewear': eyewear,
-      'headAccessory': headAccessory,
-      'body': body,
-      'back': back,
-      'pet': pet,
-      'mount': mount,
-      'hair': hair,
-      'size': size,
-      'skin': skin,
-      'shirt': shirt,
-      'chair': chair,
-      'background': background,
+      _kArmor: armor,
+      _kHead: head,
+      _kShield: shield,
+      _kWeapon: weapon,
+      _kEyewear: eyewear,
+      _kHeadAccessory: headAccessory,
+      _kBody: body,
+      _kBack: back,
+      _kPet: pet,
+      _kMount: mount,
+      _kHair: hair,
+      _kSize: size,
+      _kSkin: skin,
+      _kShirt: shirt,
+      _kChair: chair,
+      _kBackground: background,
     };
-  }
-
-  AppearanceModel.fromMap(Map<String, dynamic> map) {
-    armor = map['armor'];
-    head = map['head'];
-    shield = map['shield'];
-    weapon = map['weapon'];
-    eyewear = map['eyewear'];
-    headAccessory = map['headAccessory'];
-    body = map['body'];
-    back = map['back'];
-    pet = map['pet'];
-    mount = map['mount'];
-    size = map['size'];
-    skin = map['skin'];
-    shirt = map['shirt'];
-    chair = map['chair'];
-    background = map['background'];
   }
 
   @override
   String toString() {
-    return '''GearFull{
-      armor: $armor,
-      head: $head,
-      shield: $shield,
-      weapon: $weapon,
-      eyewear: $eyewear,
-      headAccessory: $headAccessory,
-      body: $body,
-      back: $back,
-      pet: $pet,
-      mount: $mount,
-      size: $size,
-      skin: $skin,
-      shirt: $shirt,
-      chair: $chair,
-      background: $background,
+    return '''$runtimeType{
+      $_kArmor: $armor,
+      $_kHead: $head,
+      $_kShield: $shield,
+      $_kWeapon: $weapon,
+      $_kEyewear: $eyewear,
+      $_kHeadAccessory: $headAccessory,
+      $_kBody: $body,
+      $_kBack: $back,
+      $_kPet: $pet,
+      $_kMount: $mount,
+      $_kHair: $hair,
+      $_kSize: $size,
+      $_kSkin: $skin,
+      $_kShirt: $shirt,
+      $_kChair: $chair,
+      $_kBackground: $background,
     }''';
   }
 }

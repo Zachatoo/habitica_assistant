@@ -1,6 +1,21 @@
 import 'package:habitica_assistant/models/base_model.dart';
 import 'package:habitica_assistant/models/gear_model.dart';
 
+String _kID = 'id';
+String _kName = 'name';
+String _kSequence = 'sequence';
+String _kArmor = 'armor';
+String _kHead = 'head';
+String _kShield = 'shield';
+String _kWeapon = 'weapon';
+String _kEyewear = 'eyewear';
+String _kHeadAccessory = 'head_accessory';
+String _kBody = 'body';
+String _kBack = 'back';
+String _kUpdatedAt = 'updated_at';
+String _kCreatedAt = 'created_at';
+String _kDeleted = 'deleted';
+
 class BattleGearModel extends BaseModel {
   String name;
   int sequence;
@@ -53,20 +68,20 @@ class BattleGearModel extends BaseModel {
   @override
   String toString() {
     return '''$runtimeType{
-      id: $id,
-      name: $name,
-      sequence: $sequence,
-      armor: $armor,
-      head: $head,
-      shield: $shield,
-      weapon: $weapon,
-      eyewear: $eyewear,
-      headAccessory: $headAccessory,
-      body: $body,
-      back: $back,
-      updatedAt: $updatedAt,
-      createdAt: $createdAt,
-      deleted: $deleted
+      $_kID: $id,
+      $_kName: $name,
+      $_kSequence: $sequence,
+      $_kArmor: $armor,
+      $_kHead: $head,
+      $_kShield: $shield,
+      $_kWeapon: $weapon,
+      $_kEyewear: $eyewear,
+      $_kHeadAccessory: $headAccessory,
+      $_kBody: $body,
+      $_kBack: $back,
+      $_kUpdatedAt: $updatedAt,
+      $_kCreatedAt: $createdAt,
+      $_kDeleted: $deleted
     }''';
   }
 }

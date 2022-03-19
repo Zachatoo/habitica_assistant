@@ -21,14 +21,17 @@ class DatabaseClient {
       onCreate: _onCreate,
       onUpgrade: _onUpgrade,
       onDowngrade: _onDowngrade,
-      version: 3,
+      version: 1,
     );
   }
 
   void _onCreate(Database db, int version) async {
     for (int i = 1; i <= migrationScripts.length; ++i) {
       if (migrationScripts[i] != null && migrationScripts[i]!.up.isNotEmpty) {
-        await db.execute(migrationScripts[i]!.up);
+        final commands = migrationScripts[i]!.up.split(';');
+        for (final command in commands) {
+          db.execute(command);
+        }
       }
     }
   }
@@ -36,7 +39,10 @@ class DatabaseClient {
   void _onUpgrade(Database db, int oldVersion, int newVersion) async {
     for (int i = oldVersion + 1; i <= newVersion; ++i) {
       if (migrationScripts[i] != null && migrationScripts[i]!.up.isNotEmpty) {
-        await db.execute(migrationScripts[i]!.up);
+        final commands = migrationScripts[i]!.up.split(';');
+        for (final command in commands) {
+          db.execute(command);
+        }
       }
     }
   }
@@ -44,7 +50,10 @@ class DatabaseClient {
   void _onDowngrade(Database db, int oldVersion, int newVersion) async {
     for (int i = oldVersion; i >= newVersion; --i) {
       if (migrationScripts[i] != null && migrationScripts[i]!.down.isNotEmpty) {
-        await db.execute(migrationScripts[i]!.down);
+        final commands = migrationScripts[i]!.down.split(';');
+        for (final command in commands) {
+          db.execute(command);
+        }
       }
     }
   }

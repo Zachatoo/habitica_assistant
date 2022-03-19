@@ -1,10 +1,11 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:habitica_assistant/models/habitica_auth_data_model.dart';
 
+const String _kApiToken = 'apiToken';
+const String _kUserID = 'userID';
+
 class SecureStorageService {
   static const _storage = FlutterSecureStorage();
-  static const String _kApiToken = 'apiToken';
-  static const String _kUserID = 'userID';
 
   Future<void> setApiToken(String value) async {
     return _storage.write(key: _kApiToken, value: value);

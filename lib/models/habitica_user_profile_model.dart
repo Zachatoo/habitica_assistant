@@ -2,13 +2,11 @@ import 'package:habitica_assistant/models/costume_model.dart';
 import 'package:habitica_assistant/models/gear_model.dart';
 import 'package:habitica_assistant/models/hair_model.dart';
 import 'package:habitica_assistant/utils/habitica_base_gear.dart';
+import 'package:habitica_assistant/utils/string_extensions.dart';
 
 class HabiticaUserProfileModel {
-  // Map<String, dynamic> auth;
-  // Map<String, dynamic> flags;
   late _HabiticaUserProfileItemsModel items;
   late HabiticaUserProfilePreferencesModel preferences;
-  // Map<String, dynamic>[] notifications;
 
   HabiticaUserProfileModel.fromMap(Map<String, dynamic> map) {
     items = _HabiticaUserProfileItemsModel.fromMap(map['items'] ?? {});
@@ -58,37 +56,11 @@ class _HabiticaUserProfileGearModel {
 
 class HabiticaUserProfilePreferencesModel {
   late HairModel hair;
-  // Map<String, bool> emailNotifications;
-  // Map<String, bool> pushNotifications;
-  // Map<String, bool> suppressModals;
-  // Map<String, bool> tasks;
-  // int dayStart;
   late String size;
-  // bool hideHeader;
   late String skin;
   late String shirt;
-  // int timezoneOffset;
-  // String sound;
   late String chair;
-  // String allocationMode;
-  // bool autoEquip;
-  // String dateFormat;
-  // bool sleep;
-  // bool stickyHeader;
-  // bool disableClasses;
-  // bool newTaskEdit;
-  // bool dailyDueDefaultView;
-  // bool advancedCollapsed;
-  // bool toolbarCollapsed;
-  // bool reverseChatOrder;
-  // bool displayInviteToPartyWhenPartyIs1;
-  // dynamic[] improvementCategories;
-  // String language;
-  // Object webhooks;
   late String background;
-  // bool costume;
-  // int timezoneOffsetAtLastCron;
-  // bool automaticAllocation;
 
   HabiticaUserProfilePreferencesModel.fromMap(Map<String, dynamic> map) {
     hair = HairModel.fromMap(map['hair'] ?? {});
@@ -110,37 +82,37 @@ class HabiticaUserProfilePreferencesModel {
 
   Map<String, dynamic> toMap() {
     final Map<String, dynamic> map = {};
-    if (hair.color.isNotEmpty) {
+    if (hair.color.isNotNullOrEmpty()) {
       map['preferences.hair.color'] = hair.color;
     }
-    if (hair.base.isNotEmpty) {
+    if (hair.base.isNotNullOrEmpty()) {
       map['preferences.hair.base'] = hair.base;
     }
-    if (hair.bangs.isNotEmpty) {
+    if (hair.bangs.isNotNullOrEmpty()) {
       map['preferences.hair.bangs'] = hair.bangs;
     }
-    if (hair.beard.isNotEmpty) {
+    if (hair.beard.isNotNullOrEmpty()) {
       map['preferences.hair.beard'] = hair.beard;
     }
-    if (hair.mustache.isNotEmpty) {
+    if (hair.mustache.isNotNullOrEmpty()) {
       map['preferences.hair.mustache'] = hair.mustache;
     }
-    if (hair.flower.isNotEmpty) {
-      map['preferences.hair.flower'] = hair.flower;
+    if (hair.accent.isNotNullOrEmpty()) {
+      map['preferences.hair.flower'] = hair.accent;
     }
-    if (size.isNotEmpty) {
+    if (size.isNotNullOrEmpty()) {
       map['preferences.size'] = size;
     }
-    if (skin.isNotEmpty) {
+    if (skin.isNotNullOrEmpty()) {
       map['preferences.skin'] = skin;
     }
-    if (shirt.isNotEmpty) {
+    if (shirt.isNotNullOrEmpty()) {
       map['preferences.shirt'] = shirt;
     }
-    if (chair.isNotEmpty) {
+    if (chair.isNotNullOrEmpty()) {
       map['preferences.chair'] = chair;
     }
-    if (background.isNotEmpty) {
+    if (background.isNotNullOrEmpty()) {
       map['preferences.background'] = background;
     }
     return map;

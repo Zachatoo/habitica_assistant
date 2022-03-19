@@ -3,6 +3,29 @@ import 'package:habitica_assistant/models/battle_gear_model.dart';
 import 'package:habitica_assistant/models/gear_model.dart';
 import 'package:habitica_assistant/models/hair_model.dart';
 
+String _kID = 'id';
+String _kName = 'name';
+String _kSequence = 'sequence';
+String _kArmor = 'armor';
+String _kHead = 'head';
+String _kShield = 'shield';
+String _kWeapon = 'weapon';
+String _kEyewear = 'eyewear';
+String _kHeadAccessory = 'head_accessory';
+String _kBody = 'body';
+String _kBack = 'back';
+String _kPet = 'pet';
+String _kMount = 'mount';
+String _kHair = 'hair';
+String _kSize = 'size';
+String _kSkin = 'skin';
+String _kShirt = 'shirt';
+String _kChair = 'chair';
+String _kBackground = 'background';
+String _kUpdatedAt = 'updated_at';
+String _kCreatedAt = 'created_at';
+String _kDeleted = 'deleted';
+
 class CostumeModel extends BattleGearModel {
   String? pet;
   String? mount;
@@ -123,28 +146,28 @@ class CostumeModel extends BattleGearModel {
   @override
   String toString() {
     return '''$runtimeType{
-      id: $id,
-      name: $name,
-      sequence: $sequence,
-      armor: $armor,
-      head: $head,
-      shield: $shield,
-      weapon: $weapon,
-      eyewear: $eyewear,
-      headAccessory: $headAccessory,
-      body: $body,
-      back: $back,
-      pet: $pet,
-      mount: $mount,
-      hair: $hair,
-      size: $size,
-      skin: $skin,
-      shirt: $shirt,
-      chair: $chair,
-      background: $background,
-      updatedAt: $updatedAt,
-      createdAt: $createdAt,
-      deleted: $deleted
+      $_kID: $id,
+      $_kName: $name,
+      $_kSequence: $sequence,
+      $_kArmor: $armor,
+      $_kHead: $head,
+      $_kShield: $shield,
+      $_kWeapon: $weapon,
+      $_kEyewear: $eyewear,
+      $_kHeadAccessory: $headAccessory,
+      $_kBody: $body,
+      $_kBack: $back,
+      $_kPet: $pet,
+      $_kMount: $mount,
+      $_kHair: $hair,
+      $_kSize: $size,
+      $_kSkin: $skin,
+      $_kShirt: $shirt,
+      $_kChair: $chair,
+      $_kBackground: $background,
+      $_kUpdatedAt: $updatedAt,
+      $_kCreatedAt: $createdAt,
+      $_kDeleted: $deleted
     }''';
   }
 }
