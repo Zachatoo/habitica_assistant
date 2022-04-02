@@ -58,7 +58,7 @@ class BattleGearRepository extends BaseRepository<BattleGearModel> {
       _kBack: entity.back,
       _kUpdatedAt: entity.updatedAt.millisecondsSinceEpoch,
       _kCreatedAt: entity.createdAt.millisecondsSinceEpoch,
-      _kDeleted: entity.deleted,
+      _kDeleted: entity.deleted == true ? 1 : 0,
     };
   }
 }

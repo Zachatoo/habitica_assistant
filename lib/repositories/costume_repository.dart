@@ -52,11 +52,11 @@ class CostumeRepository extends BaseRepository<CostumeModel> {
       mount: map[_kMount],
       hair: HairModel(
         color: map[_kHairColor],
-        base: map[_kHairBase],
-        bangs: map[_kHairBangs],
-        beard: map[_kHairBeard],
-        mustache: map[_kHairMustache],
-        accent: map[_kHairAccent],
+        base: map[_kHairBase]?.toString(),
+        bangs: map[_kHairBangs]?.toString(),
+        beard: map[_kHairBeard]?.toString(),
+        mustache: map[_kHairMustache]?.toString(),
+        accent: map[_kHairAccent]?.toString(),
       ),
       size: map[_kSize],
       skin: map[_kSkin],
@@ -100,7 +100,7 @@ class CostumeRepository extends BaseRepository<CostumeModel> {
       _kBackground: entity.background,
       _kCreatedAt: entity.createdAt.millisecondsSinceEpoch,
       _kUpdatedAt: entity.updatedAt.millisecondsSinceEpoch,
-      _kDeleted: entity.deleted,
+      _kDeleted: entity.deleted == true ? 1 : 0,
     };
   }
 }
